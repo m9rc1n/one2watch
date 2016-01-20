@@ -14,45 +14,24 @@ import vandy.mooc.model.aidl.TrailerData.Movie;
 import vandy.mooc.model.aidl.TrailerData.Weather;
 import vandy.mooc.model.aidl.TrailerData.Thumb;
 
-/**
- * Parses the Json weather data returned from the Weather Services API
- * and returns a List of TrailerData objects that contain this data.
- */
 public class WeatherDataJsonParser {
-    /**
-     * Used for logging purposes.
-     */
+
     private final String TAG = this.getClass().getCanonicalName();
 
-    /**
-     * Parse the @a inputStream and convert it into a List of JsonWeather
-     * objects.
-     */
     public List<TrailerData> parseJsonStream(InputStream inputStream) throws IOException {
-        // TODO -- you fill in here.
-        // Create a JsonReader for the inputStream.
+
         try (JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"))) {
-            // Log.d(TAG, "Parsing the results returned as an array");
             return parseJsonWeatherDataArray(reader);
         }
     }
 
-    /**
-     * Parse a Json stream and convert it into a List of TrailerData
-     * objects.
-     */
     public List<TrailerData> parseJsonWeatherDataArray(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.
         final List<TrailerData> list = new ArrayList<>();
         list.add(parseJsonWeatherData(reader));
         return list;
     }
 
-    /**
-     * Parse a Json stream and return a TrailerData object.
-     */
     public TrailerData parseJsonWeatherData(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.
         reader.beginObject();
         final TrailerData data = new TrailerData();
         while (reader.hasNext()) {
@@ -92,11 +71,7 @@ public class WeatherDataJsonParser {
         return data;
     }
 
-    /**
-     * Parse a Json stream and return a List of Weather objects.
-     */
     public List<Weather> parseWeathers(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.
         reader.beginArray();
         final List<Weather> list = new ArrayList<>();
         while (reader.hasNext()) list.add(parseWeather(reader));
@@ -104,11 +79,7 @@ public class WeatherDataJsonParser {
         return list;
     }
 
-    /**
-     * Parse a Json stream and return a Weather object.
-     */
     public Weather parseWeather(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.
         reader.beginObject();
         final Weather weather = new Weather();
         while (reader.hasNext()) {
@@ -135,11 +106,7 @@ public class WeatherDataJsonParser {
         return weather;
     }
 
-    /**
-     * Parse a Json stream and return a Main Object.
-     */
     public Embed parseMain(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.
         reader.beginObject();
         final Embed embed = new Embed();
         while (reader.hasNext()) {
@@ -163,11 +130,7 @@ public class WeatherDataJsonParser {
         return embed;
     }
 
-    /**
-     * Parse a Json stream and return a Wind Object.
-     */
     public TrailerData.Thumb parseWind(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.
         reader.beginObject();
         final Thumb thumb = new TrailerData.Thumb();
         while (reader.hasNext()) {
@@ -188,11 +151,7 @@ public class WeatherDataJsonParser {
         return thumb;
     }
 
-    /**
-     * Parse a Json stream and return a Movie Object.
-     */
     public Movie parseSys(JsonReader reader) throws IOException {
-        // TODO -- you fill in here.
         reader.beginObject();
         final Movie movie = new TrailerData.Movie();
         while (reader.hasNext()) {
