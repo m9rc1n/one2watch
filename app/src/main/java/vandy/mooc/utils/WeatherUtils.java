@@ -8,7 +8,7 @@ import java.util.Calendar;
 import vandy.mooc.R;
 
 /**
- * WeatherUtils contains helper methods that properly format the WeatherData
+ * WeatherUtils contains helper methods that properly format the TrailerData
  * POJO and display it to the user.
  */
 public class WeatherUtils {

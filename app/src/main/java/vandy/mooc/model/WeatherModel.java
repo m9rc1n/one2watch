@@ -8,8 +8,8 @@ import java.lang.ref.WeakReference;
 
 import vandy.mooc.MVP;
 import vandy.mooc.common.GenericServiceConnection;
+import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.model.aidl.WeatherCall;
-import vandy.mooc.model.aidl.WeatherData;
 import vandy.mooc.model.aidl.WeatherRequest;
 import vandy.mooc.model.aidl.WeatherResults;
 import vandy.mooc.model.services.WeatherServiceAsync;
@@ -48,7 +48,7 @@ public class WeatherModel implements MVP.ProvidedModelOps {
          * return the results back.
          */
         @Override
-        public void sendResults(final WeatherData weatherResults) throws RemoteException {
+        public void sendResults(final TrailerData weatherResults) throws RemoteException {
             // Pass the results back to the Presenter's
             // displayResults() method.
             // TODO -- you fill in here.
@@ -169,10 +169,10 @@ public class WeatherModel implements MVP.ProvidedModelOps {
     /**
      * Initiate the synchronous weather lookup.
      */
-    public WeatherData getWeatherSync(String location) {
+    public TrailerData getWeatherSync(String location) {
         // TODO -- you fill in here.
         try {
-            for (WeatherData data : mWeatherServiceSyncConnection.getInterface()
+            for (TrailerData data : mWeatherServiceSyncConnection.getInterface()
                     .getCurrentWeather(location)) {
                 if (data != null) {
                     return data;

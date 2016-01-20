@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import vandy.mooc.model.aidl.WeatherData;
+import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.model.aidl.WeatherRequest;
 import vandy.mooc.model.aidl.WeatherResults;
 
@@ -50,14 +50,14 @@ public class WeatherServiceAsync extends WeatherServiceBase {
         @Override
         public void getCurrentWeather(final String location, final WeatherResults callback)
                 throws RemoteException {
-            List<WeatherData> results = getWeatherResults(location);
+            List<TrailerData> results = getWeatherResults(location);
 
             if (results == null) {
                 callback.sendError("Empty list");
                 return;
             }
 
-            for (WeatherData data : results) {
+            for (TrailerData data : results) {
                 if (data != null) {
                     callback.sendResults(data);
                     return;

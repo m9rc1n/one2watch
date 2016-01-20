@@ -10,7 +10,7 @@ import vandy.mooc.common.GenericAsyncTask;
 import vandy.mooc.common.GenericAsyncTaskOps;
 import vandy.mooc.common.GenericPresenter;
 import vandy.mooc.model.WeatherModel;
-import vandy.mooc.model.aidl.WeatherData;
+import vandy.mooc.model.aidl.TrailerData;
 
 /**
  * This class implements all the weather-related operations defined in
@@ -21,7 +21,7 @@ import vandy.mooc.model.aidl.WeatherData;
  */
 public class WeatherPresenter
         extends GenericPresenter<MVP.RequiredPresenterOps, MVP.ProvidedModelOps, WeatherModel>
-        implements GenericAsyncTaskOps<String, Void, WeatherData>,
+        implements GenericAsyncTaskOps<String, Void, TrailerData>,
         MVP.ProvidedPresenterOps,
         MVP.RequiredPresenterOps {
     /**
@@ -43,7 +43,7 @@ public class WeatherPresenter
      * The GenericAsyncTask used to obtain the weather in a background
      * thread via the Weather Service web service.
      */
-    private GenericAsyncTask<String, Void, WeatherData, WeatherPresenter> mAsyncTask;
+    private GenericAsyncTask<String, Void, TrailerData, WeatherPresenter> mAsyncTask;
     /**
      * Location we're trying to get current weather for.
      */
@@ -127,7 +127,7 @@ public class WeatherPresenter
      * method call, which runs in a background thread to avoid
      * blocking the UI thread.
      */
-    public WeatherData doInBackground(String... locations) {
+    public TrailerData doInBackground(String... locations) {
         mLocation = locations[0];
         return getModel().getWeatherSync(mLocation);
     }
@@ -135,9 +135,9 @@ public class WeatherPresenter
     /**
      * Display the results in the UI Thread.
      */
-    public void onPostExecute(WeatherData weatherData) {
+    public void onPostExecute(TrailerData trailerData) {
         mView.get()
-                .displayResults(weatherData,
+                .displayResults(trailerData,
                         "No weather data for location \"" + mLocation + "\" found");
         mAsyncTask = null;
     }
@@ -146,16 +146,16 @@ public class WeatherPresenter
      * Forwards to the View layer to displays the weather data to the
      * user.
      *
-     * @param weatherData WeatherData to display
+     * @param trailerData TrailerData to display
      */
-    public void displayResults(final WeatherData weatherData, final String reason) {
+    public void displayResults(final TrailerData trailerData, final String reason) {
         // Since the Android Binder framework dispatches this method
         // in a separate Thread we need to explicitly post a runnable
         // containing the results to the UI Thread, where it's
         // displayed.
         mDisplayHandler.post(new Runnable() {
             public void run() {
-                mView.get().displayResults(weatherData, reason);
+                mView.get().displayResults(trailerData, reason);
             }
         });
     }

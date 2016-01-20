@@ -9,13 +9,13 @@ import vandy.mooc.MVP;
 import vandy.mooc.R;
 import vandy.mooc.common.GenericActivity;
 import vandy.mooc.common.Utils;
-import vandy.mooc.model.aidl.WeatherData;
+import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.presenter.WeatherPresenter;
 
 /**
  * The main Activity that prompts the user for a location and then
- * displays WeatherData about this location via either retrieving the
- * WeatherData from a ContentProvider-based cache or from the Weather
+ * displays TrailerData about this location via either retrieving the
+ * TrailerData from a ContentProvider-based cache or from the Weather
  * Service web service via the use of Retrofit.  It plays the role of
  * the "View" in the Model-View-Presenter (MVP) pattern.  It extends
  * GenericActivity that provides a framework to automatically handle
@@ -127,16 +127,16 @@ public class DownloadWeatherActivity
     /**
      * Displays the weather data to the user.
      *
-     * @param weatherData WeatherData to display
-     * @param errorMessage Reason that weatherData is null
+     * @param trailerData TrailerData to display
+     * @param errorMessage Reason that trailerData is null
      */
-    public void displayResults(WeatherData weatherData, String errorMessage) {
-        // Only display the results if we got valid WeatherData.
-        if (weatherData == null) Utils.showToast(this, errorMessage);
+    public void displayResults(TrailerData trailerData, String errorMessage) {
+        // Only display the results if we got valid TrailerData.
+        if (trailerData == null) Utils.showToast(this, errorMessage);
         else {
             // Create an intent that will start an Activity to display
-            // the WeatherData to the user.
-            final Intent intent = DisplayWeatherActivity.makeIntent(weatherData);
+            // the TrailerData to the user.
+            final Intent intent = DisplayWeatherActivity.makeIntent(trailerData);
 
             // Verify that the intent will resolve to an Activity.
             if (intent.resolveActivity(getPackageManager()) != null)

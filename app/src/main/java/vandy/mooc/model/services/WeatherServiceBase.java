@@ -12,7 +12,7 @@ import java.util.List;
 import vandy.mooc.common.ExecutorServiceTimeoutCache;
 import vandy.mooc.common.GenericSingleton;
 import vandy.mooc.common.LifecycleLoggingService;
-import vandy.mooc.model.aidl.WeatherData;
+import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.model.aidl.WeatherDataJsonParser;
 
 /**
@@ -63,21 +63,21 @@ public class WeatherServiceBase extends LifecycleLoggingService {
 
     /**
      * Contitionally queries the Weather Service web service to obtain
-     * a List of WeatherData corresponding to the @a location if it's
+     * a List of TrailerData corresponding to the @a location if it's
      * been more than 10 seconds since the last query to the Weather
      * Service. Otherwise, simply return the cached results.
      */
-    protected List<WeatherData> getWeatherResults(String location) {
+    protected List<TrailerData> getWeatherResults(String location) {
         Log.d(TAG, "Looking up results in the cache for " + location);
         // TODO -- you fill in here.
         WeatherCache cache = GenericSingleton.instance(WeatherCache.class);
 
-        List<WeatherData> data = cache.get(location);
+        List<TrailerData> data = cache.get(location);
 
         if (data != null) {
             return data;
         } else {
-            List<WeatherData> results = getResultsFromWeatherService(location);
+            List<TrailerData> results = getResultsFromWeatherService(location);
             if (results != null) {
                 cache.put(location, results, DEFAULT_CACHE_TIMEOUT);
             }
@@ -88,14 +88,14 @@ public class WeatherServiceBase extends LifecycleLoggingService {
 
     /**
      * Actually query the Weather Service web service to get the
-     * current WeatherData. Usually only returns a single element in
+     * current TrailerData. Usually only returns a single element in
      * the List, but can return multiple elements if they are sent
      * back from the Weather Service.
      */
-    private List<WeatherData> getResultsFromWeatherService(String location) {
-        // Create a List that will return the WeatherData obtained
+    private List<TrailerData> getResultsFromWeatherService(String location) {
+        // Create a List that will return the TrailerData obtained
         // from the Weather Service web service.
-        List<WeatherData> returnList = null;
+        List<TrailerData> returnList = null;
 
         try {
             // Create a URL that points to desired location the
@@ -120,7 +120,7 @@ public class WeatherServiceBase extends LifecycleLoggingService {
                 final WeatherDataJsonParser parser = new WeatherDataJsonParser();
 
                 // Parse the Json results and create List of
-                // WeatherData objects.
+                // TrailerData objects.
                 returnList = parser.parseJsonStream(in);
             } finally {
                 urlConnection.disconnect();
@@ -133,7 +133,7 @@ public class WeatherServiceBase extends LifecycleLoggingService {
         // See if we parsed any valid data.
         if (returnList != null && returnList.size() > 0 && returnList.get(0).getMessage() == null) {
 
-            // Return the List of WeatherData.
+            // Return the List of TrailerData.
             return returnList;
         } else {
             Log.d(TAG, returnList.get(0).getMessage() + " \"" + location + "\"");
@@ -143,12 +143,12 @@ public class WeatherServiceBase extends LifecycleLoggingService {
     }
 
     /**
-     * Define a class that will cache the WeatherData since it doesn't
+     * Define a class that will cache the TrailerData since it doesn't
      * change rapidly. This class is passed to the
      * GenericSingleton.instance() method to retrieve the one and only
      * instance of the WeatherCache.
      */
     public static class WeatherCache
-            extends ExecutorServiceTimeoutCache<String, List<WeatherData>> {
+            extends ExecutorServiceTimeoutCache<String, List<TrailerData>> {
     }
 }

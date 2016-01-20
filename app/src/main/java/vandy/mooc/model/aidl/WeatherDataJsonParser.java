@@ -9,14 +9,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import vandy.mooc.model.aidl.WeatherData.Main;
-import vandy.mooc.model.aidl.WeatherData.Sys;
-import vandy.mooc.model.aidl.WeatherData.Weather;
-import vandy.mooc.model.aidl.WeatherData.Wind;
+import vandy.mooc.model.aidl.TrailerData.Embed;
+import vandy.mooc.model.aidl.TrailerData.Movie;
+import vandy.mooc.model.aidl.TrailerData.Weather;
+import vandy.mooc.model.aidl.TrailerData.Thumb;
 
 /**
  * Parses the Json weather data returned from the Weather Services API
- * and returns a List of WeatherData objects that contain this data.
+ * and returns a List of TrailerData objects that contain this data.
  */
 public class WeatherDataJsonParser {
     /**
@@ -28,7 +28,7 @@ public class WeatherDataJsonParser {
      * Parse the @a inputStream and convert it into a List of JsonWeather
      * objects.
      */
-    public List<WeatherData> parseJsonStream(InputStream inputStream) throws IOException {
+    public List<TrailerData> parseJsonStream(InputStream inputStream) throws IOException {
         // TODO -- you fill in here.
         // Create a JsonReader for the inputStream.
         try (JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"))) {
@@ -38,48 +38,48 @@ public class WeatherDataJsonParser {
     }
 
     /**
-     * Parse a Json stream and convert it into a List of WeatherData
+     * Parse a Json stream and convert it into a List of TrailerData
      * objects.
      */
-    public List<WeatherData> parseJsonWeatherDataArray(JsonReader reader) throws IOException {
+    public List<TrailerData> parseJsonWeatherDataArray(JsonReader reader) throws IOException {
         // TODO -- you fill in here.
-        final List<WeatherData> list = new ArrayList<>();
+        final List<TrailerData> list = new ArrayList<>();
         list.add(parseJsonWeatherData(reader));
         return list;
     }
 
     /**
-     * Parse a Json stream and return a WeatherData object.
+     * Parse a Json stream and return a TrailerData object.
      */
-    public WeatherData parseJsonWeatherData(JsonReader reader) throws IOException {
+    public TrailerData parseJsonWeatherData(JsonReader reader) throws IOException {
         // TODO -- you fill in here.
         reader.beginObject();
-        final WeatherData data = new WeatherData();
+        final TrailerData data = new TrailerData();
         while (reader.hasNext()) {
             String name = reader.nextName();
             switch (name) {
-                case WeatherData.main_JSON:
-                    data.setMain(parseMain(reader));
+                case TrailerData.embed_JSON:
+                    data.setEmbed(parseMain(reader));
                     break;
-                case WeatherData.sys_JSON:
-                    data.setSys(parseSys(reader));
+                case TrailerData.movie_JSON:
+                    data.setMovie(parseSys(reader));
                     break;
-                case WeatherData.wind_JSON:
-                    data.setWind(parseWind(reader));
+                case TrailerData.rating_JSON:
+                    data.setThumb(parseWind(reader));
                     break;
-                case WeatherData.cod_JSON:
+                case TrailerData.title_JSON:
                     data.setCod(reader.nextLong());
                     break;
-                case WeatherData.dt_JSON:
+                case TrailerData.type_JSON:
                     data.setDate(reader.nextLong());
                     break;
-                case WeatherData.message_JSON:
+                case TrailerData.message_JSON:
                     data.setMessage(reader.nextString());
                     break;
-                case WeatherData.name_JSON:
-                    data.setName(reader.nextString());
+                case TrailerData.imdb_id_JSON:
+                    data.setTitle(reader.nextString());
                     break;
-                case WeatherData.weather_JSON:
+                case TrailerData.weather_JSON:
                     if (reader.peek() == JsonToken.BEGIN_ARRAY)
                         data.setWeathers(parseWeathers(reader));
                     break;
@@ -138,21 +138,21 @@ public class WeatherDataJsonParser {
     /**
      * Parse a Json stream and return a Main Object.
      */
-    public Main parseMain(JsonReader reader) throws IOException {
+    public Embed parseMain(JsonReader reader) throws IOException {
         // TODO -- you fill in here.
         reader.beginObject();
-        final Main main = new Main();
+        final Embed embed = new Embed();
         while (reader.hasNext()) {
             String name = reader.nextName();
             switch (name) {
-                case Main.humidity_JSON:
-                    main.setHumidity(reader.nextLong());
+                case Embed.humidity_JSON:
+                    embed.setHumidity(reader.nextLong());
                     break;
-                case Main.pressure_JSON:
-                    main.setPressure(reader.nextDouble());
+                case Embed.pressure_JSON:
+                    embed.setPressure(reader.nextDouble());
                     break;
-                case Main.temp_JSON:
-                    main.setTemp(reader.nextDouble());
+                case TrailerData.Embed.flash_JSON:
+                    embed.setTemp(reader.nextDouble());
                     break;
                 default:
                     reader.skipValue();
@@ -160,24 +160,24 @@ public class WeatherDataJsonParser {
             }
         }
         reader.endObject();
-        return main;
+        return embed;
     }
 
     /**
      * Parse a Json stream and return a Wind Object.
      */
-    public Wind parseWind(JsonReader reader) throws IOException {
+    public TrailerData.Thumb parseWind(JsonReader reader) throws IOException {
         // TODO -- you fill in here.
         reader.beginObject();
-        final Wind wind = new Wind();
+        final Thumb thumb = new TrailerData.Thumb();
         while (reader.hasNext()) {
             String name = reader.nextName();
             switch (name) {
-                case Wind.deg_JSON:
-                    wind.setDeg(reader.nextDouble());
+                case TrailerData.Thumb.small_JSON:
+                    thumb.setDeg(reader.nextDouble());
                     break;
-                case Wind.speed_JSON:
-                    wind.setSpeed(reader.nextDouble());
+                case TrailerData.Thumb.large_JSON:
+                    thumb.setSpeed(reader.nextDouble());
                     break;
                 default:
                     reader.skipValue();
@@ -185,30 +185,30 @@ public class WeatherDataJsonParser {
             }
         }
         reader.endObject();
-        return wind;
+        return thumb;
     }
 
     /**
-     * Parse a Json stream and return a Sys Object.
+     * Parse a Json stream and return a Movie Object.
      */
-    public Sys parseSys(JsonReader reader) throws IOException {
+    public Movie parseSys(JsonReader reader) throws IOException {
         // TODO -- you fill in here.
         reader.beginObject();
-        final Sys sys = new Sys();
+        final Movie movie = new TrailerData.Movie();
         while (reader.hasNext()) {
             String name = reader.nextName();
             switch (name) {
-                case Sys.country_JSON:
-                    sys.setCountry(reader.nextString());
+                case TrailerData.Movie.plot_JSON:
+                    movie.setCountry(reader.nextString());
                     break;
-                case Sys.message_JSON:
-                    sys.setMessage(reader.nextDouble());
+                case Movie.title_JSON:
+                    movie.setMessage(reader.nextDouble());
                     break;
-                case Sys.sunrise_JSON:
-                    sys.setSunrise(reader.nextLong());
+                case TrailerData.Movie.imdbId_JSON:
+                    movie.setSunrise(reader.nextLong());
                     break;
-                case Sys.sunset_JSON:
-                    sys.setSunset(reader.nextLong());
+                case TrailerData.Movie.type_JSON:
+                    movie.setSunset(reader.nextLong());
                     break;
                 default:
                     reader.skipValue();
@@ -216,6 +216,6 @@ public class WeatherDataJsonParser {
             }
         }
         reader.endObject();
-        return sys;
+        return movie;
     }
 }

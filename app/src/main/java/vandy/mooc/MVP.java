@@ -3,7 +3,7 @@ package vandy.mooc;
 import vandy.mooc.common.ContextView;
 import vandy.mooc.common.ModelOps;
 import vandy.mooc.common.PresenterOps;
-import vandy.mooc.model.aidl.WeatherData;
+import vandy.mooc.model.aidl.TrailerData;
 
 /**
  * Defines the interfaces for the Download Weather Viewer application
@@ -23,10 +23,10 @@ public interface MVP {
         /**
          * Displays the weather data to the user.
          *
-         * @param weatherData WeatherData to display
-         * @param errorReason Reason that weatherData is null
+         * @param trailerData TrailerData to display
+         * @param errorReason Reason that trailerData is null
          */
-        void displayResults(WeatherData weatherData, String errorReason);
+        void displayResults(TrailerData trailerData, String errorReason);
     }
 
     /**
@@ -63,10 +63,10 @@ public interface MVP {
          * Forwards to the View layer to displays the weather data to
          * the user.
          *
-         * @param weatherData  WeatherData to display
-         * @param errorMessage Reason that weatherData is null
+         * @param trailerData  TrailerData to display
+         * @param errorMessage Reason that trailerData is null
          */
-        public void displayResults(WeatherData weatherData, String errorMessage);
+        public void displayResults(TrailerData trailerData, String errorMessage);
     }
 
     /**
@@ -88,6 +88,6 @@ public interface MVP {
          * Initiate the synchronous weather lookup when the user
          * presses the "Look Up Sync" button.
          */
-        WeatherData getWeatherSync(String location);
+        TrailerData getWeatherSync(String location);
     }
 }

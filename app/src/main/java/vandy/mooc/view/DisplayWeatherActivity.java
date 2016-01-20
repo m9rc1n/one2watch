@@ -8,13 +8,13 @@ import android.widget.TextView;
 import vandy.mooc.R;
 import vandy.mooc.common.LifecycleLoggingActivity;
 import vandy.mooc.common.Utils;
-import vandy.mooc.model.aidl.WeatherData;
+import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.utils.WeatherUtils;
 
 /**
  * This Activity shows the details of weather for a location provided
  * by the user.  It expects the intent used to start the Activity to
- * contain an extra that holds List of WeatherData objects under the
+ * contain an extra that holds List of TrailerData objects under the
  * key "KEY_WEATHER_DATA".  Extends LifecycleLoggingActivity so its
  * its lifecycle hook methods are logged automatically.
  */
@@ -54,17 +54,17 @@ public class DisplayWeatherActivity extends LifecycleLoggingActivity {
      * Factory method that makes the implicit intent another Activity
      * uses to call this Activity.
      *
-     * @param weatherList List of WeatherData to be displayed.
+     * @param weatherList List of TrailerData to be displayed.
      */
-    public static Intent makeIntent(WeatherData weatherData) {
+    public static Intent makeIntent(TrailerData trailerData) {
         // Create an Intent with a custom action to display
-        // WeatherData.
+        // TrailerData.
         return new Intent(ACTION_DISPLAY_WEATHER)
                 // Set MIME_TYPE to display Weather.
                 .setType(TYPE_WEATHER)
-                        // Store the list of WeatherData to send to the
+                        // Store the list of TrailerData to send to the
                         // DisplayWeatherActivity.
-                .putExtra(KEY_WEATHER_DATA, weatherData);
+                .putExtra(KEY_WEATHER_DATA, trailerData);
     }
 
     /**
@@ -92,11 +92,11 @@ public class DisplayWeatherActivity extends LifecycleLoggingActivity {
         // Check whether it is correct intent type.
         if (intent.getType().equals(TYPE_WEATHER)) {
             // Get the Weather Data from the Intent.
-            final WeatherData weatherData = intent.getParcelableExtra(KEY_WEATHER_DATA);
+            final TrailerData trailerData = intent.getParcelableExtra(KEY_WEATHER_DATA);
 
-            // The WeatherData is located in the first element of the
+            // The TrailerData is located in the first element of the
             // ArrayList.
-            setViewFields(weatherData);
+            setViewFields(trailerData);
         } else
             // Show error message.
             Utils.showToast(this, "Incorrect Data");
@@ -120,18 +120,18 @@ public class DisplayWeatherActivity extends LifecycleLoggingActivity {
     }
 
     /**
-     * Set all the View fields from the @a weatherData.
+     * Set all the View fields from the @a trailerData.
      */
-    private void setViewFields(WeatherData weatherData) {
+    private void setViewFields(TrailerData trailerData) {
         // Get the City and Country Name
-        final String locationName = weatherData.getName() + ", " + weatherData.getSys()
+        final String locationName = trailerData.getTitle() + ", " + trailerData.getMovie()
                 .getCountry();
 
         // Update view for Location Name
         mLocationName.setText(locationName);
 
         // Use weather art image given by its weatherId.
-        int weatherId = (int) weatherData.getWeathers().get(0).getId();
+        int weatherId = (int) trailerData.getWeathers().get(0).getId();
         mIconView.setImageResource(WeatherUtils.getArtResourceForWeatherCondition(weatherId));
 
         // Get user-friendly date text.
@@ -142,7 +142,7 @@ public class DisplayWeatherActivity extends LifecycleLoggingActivity {
         mDateView.setText(dateText);
 
         // Read description and update the view.
-        final String description = weatherData.getWeathers().get(0).getDescription();
+        final String description = trailerData.getWeathers().get(0).getDescription();
         mDescriptionView.setText(description);
 
         // For accessibility, add a content description to the icon
@@ -150,17 +150,17 @@ public class DisplayWeatherActivity extends LifecycleLoggingActivity {
         mIconView.setContentDescription(description);
 
         // Read Sunrise time and update the view.
-        final String sunriseText = "Sunrise:  " + WeatherUtils.formatTime(weatherData.getSys()
+        final String sunriseText = "Sunrise:  " + WeatherUtils.formatTime(trailerData.getMovie()
                 .getSunrise());
         mSunriseView.setText(sunriseText);
 
         // Read Sunset time and update the view.
-        final String sunsetText = "Sunset:  " + WeatherUtils.formatTime(weatherData.getSys()
+        final String sunsetText = "Sunset:  " + WeatherUtils.formatTime(trailerData.getMovie()
                 .getSunset());
         mSunsetView.setText(sunsetText);
 
         // Read Temperature in Celsius and Farhenheit 
-        final double temp = weatherData.getMain().getTemp();
+        final double temp = trailerData.getEmbed().getTemp();
         final String tempCelsius = WeatherUtils.formatTemperature(getApplicationContext(),
                 temp,
                 false) + "C";
@@ -174,12 +174,12 @@ public class DisplayWeatherActivity extends LifecycleLoggingActivity {
         mFarhenheitTempView.setText(tempFarhenheit);
 
         // Read humidity and update the view.
-        final float humidity = weatherData.getMain().getHumidity();
+        final float humidity = trailerData.getEmbed().getHumidity();
         mHumidityView.setText(getString(R.string.format_humidity, humidity));
 
         // Read wind speed and direction and update the view.
-        final double windSpeedStr = weatherData.getWind().getSpeed();
-        final double windDirStr = weatherData.getWind().getDeg();
+        final double windSpeedStr = trailerData.getThumb().getSpeed();
+        final double windDirStr = trailerData.getThumb().getDeg();
         mWindView.setText(WeatherUtils.getFormattedWind(this, windSpeedStr, windDirStr));
     }
 }

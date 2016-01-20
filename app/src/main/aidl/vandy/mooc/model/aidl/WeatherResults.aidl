@@ -1,6 +1,6 @@
 package vandy.mooc.model.aidl;
 
-import vandy.mooc.model.aidl.WeatherData;
+import vandy.mooc.model.aidl.TrailerData;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
 interface WeatherResults {
     /**
      * This one-way (non-blocking) method allows WeatherServiceAsync
-     * to return the WeatherData results associated with a one-way
+     * to return the TrailerData results associated with a one-way
      * WeatherRequest.getCurrentWeather() call.
      */
     oneway void sendResults(in WeatherData results);

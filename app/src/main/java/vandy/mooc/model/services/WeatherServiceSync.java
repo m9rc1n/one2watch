@@ -7,8 +7,8 @@ import android.os.RemoteException;
 
 import java.util.List;
 
+import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.model.aidl.WeatherCall;
-import vandy.mooc.model.aidl.WeatherData;
 
 /**
  * This class uses synchronous AIDL interactions to expand Weathers
@@ -18,9 +18,9 @@ import vandy.mooc.model.aidl.WeatherData;
  * making two-way method calls on the WeatherCall object asking this
  * to lookup the current Weather for a designated location.  After the
  * lookup is finishes successfully, this Service sends the Weather
- * results back to the Activity by returning a List of WeatherData.
+ * results back to the Activity by returning a List of TrailerData.
  * An unsuccessful lookup will return a zero-sized List of
- * WeatherData.
+ * TrailerData.
  * <p/>
  * AIDL is an example of the Broker Pattern, in which all interprocess
  * communication details are hidden behind the AIDL interfaces.
@@ -43,7 +43,7 @@ public class WeatherServiceSync extends WeatherServiceBase {
          * results and then returns the results to the client.
          */
         @Override
-        public List<WeatherData> getCurrentWeather(String location) throws RemoteException {
+        public List<TrailerData> getCurrentWeather(String location) throws RemoteException {
             // TODO -- you fill in here.
             return getWeatherResults(location);
         }
