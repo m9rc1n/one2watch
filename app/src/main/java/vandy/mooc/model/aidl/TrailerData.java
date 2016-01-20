@@ -29,6 +29,7 @@ public class TrailerData implements Parcelable {
     private long mId;
     private String mTitle;
     private String mImdbId;
+    private String mType;
     private String mRating;
     private long mDuration;
     private Thumb mThumb;
@@ -39,6 +40,7 @@ public class TrailerData implements Parcelable {
     public TrailerData(long mId,
                        String mTitle,
                        String mImdbId,
+                       String mType,
                        String mRating,
                        long mDuration,
                        Thumb mThumb,
@@ -48,6 +50,7 @@ public class TrailerData implements Parcelable {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mImdbId = mImdbId;
+        this.mType = mType;
         this.mRating = mRating;
         this.mDuration = mDuration;
         this.mThumb = mThumb;
@@ -63,6 +66,7 @@ public class TrailerData implements Parcelable {
         mId = in.readLong();
         mTitle = in.readString();
         mImdbId = in.readString();
+        mType = in.readString();
         mRating = in.readString();
         mDuration = in.readLong();
         mThumb = new Thumb(in.readString(), in.readString());
@@ -82,36 +86,84 @@ public class TrailerData implements Parcelable {
                 in.readString());
     }
 
-    public Movie getovie() {
-        return mMovie;
+    public long getId() {
+        return mId;
     }
 
-    public void setovie(Movie movie) {
-        mMovie = movie;
-    }
-
-    public Embed getEmbed() {
-        return mEmbed;
-    }
-
-    public void setEmbed(Embed embed) {
-        mEmbed = embed;
-    }
-
-    public Thumb getThumb() {
-        return mThumb;
-    }
-
-    public void setThumb(Thumb thumb) {
-        mThumb = thumb;
+    public void setId(long mId) {
+        this.mId = mId;
     }
 
     public String getTitle() {
         return mTitle;
     }
 
-    public void setTitle(String title) {
-        mTitle = title;
+    public void setTitle(String mTitle) {
+        this.mTitle = mTitle;
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public void setType(String mType) {
+        this.mType = mType;
+    }
+
+    public String getImdbId() {
+        return mImdbId;
+    }
+
+    public void setImdbId(String mImdbId) {
+        this.mImdbId = mImdbId;
+    }
+
+    public String getRating() {
+        return mRating;
+    }
+
+    public void setRating(String mRating) {
+        this.mRating = mRating;
+    }
+
+    public long getDuration() {
+        return mDuration;
+    }
+
+    public void setDuration(long mDuration) {
+        this.mDuration = mDuration;
+    }
+
+    public Thumb getThumb() {
+        return mThumb;
+    }
+
+    public void setThumb(Thumb mThumb) {
+        this.mThumb = mThumb;
+    }
+
+    public Embed getEmbed() {
+        return mEmbed;
+    }
+
+    public void setEmbed(Embed mEmbed) {
+        this.mEmbed = mEmbed;
+    }
+
+    public String getLink() {
+        return mLink;
+    }
+
+    public void setLink(String mLink) {
+        this.mLink = mLink;
+    }
+
+    public Movie getMovie() {
+        return mMovie;
+    }
+
+    public void setMovie(Movie mMovie) {
+        this.mMovie = mMovie;
     }
 
     @Override
@@ -124,6 +176,7 @@ public class TrailerData implements Parcelable {
         dest.writeLong(mId);
         dest.writeString(mTitle);
         dest.writeString(mImdbId);
+        dest.writeString(mType);
         dest.writeString(mRating);
         dest.writeLong(mDuration);
         dest.writeString(mThumb.getSmall());
@@ -149,6 +202,7 @@ public class TrailerData implements Parcelable {
 
     public static class Movie {
 
+        public final static String id_JSON = "id";
         public final static String title_JSON = "title";
         public final static String plot_JSON = "plot";
         public final static String imdbId_JSON = "imdbId";
@@ -157,6 +211,7 @@ public class TrailerData implements Parcelable {
         public final static String year_JSON = "year";
         public final static String rating_JSON = "rating";
         public final static String imdbRating_JSON = "imdbRating";
+        public final static String genre_JSON = "genre";
 
         private long mId;
         private String mTitle;
@@ -312,6 +367,10 @@ public class TrailerData implements Parcelable {
 
         public Html5 getHtml5() {
             return mHtml5;
+        }
+
+        public void setHtml5(Html5 mHtml5) {
+            this.mHtml5 = mHtml5;
         }
     }
 

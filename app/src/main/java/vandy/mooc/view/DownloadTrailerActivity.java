@@ -10,7 +10,7 @@ import vandy.mooc.R;
 import vandy.mooc.common.GenericActivity;
 import vandy.mooc.common.Utils;
 import vandy.mooc.model.aidl.TrailerData;
-import vandy.mooc.presenter.WeatherPresenter;
+import vandy.mooc.presenter.TrailerPresenter;
 
 /**
  * The main Activity that prompts the user for a location and then
@@ -19,14 +19,14 @@ import vandy.mooc.presenter.WeatherPresenter;
  * Service web service via the use of Retrofit.  It plays the role of
  * the "View" in the Model-View-Presenter (MVP) pattern.  It extends
  * GenericActivity that provides a framework to automatically handle
- * runtime configuration changes of an WeatherPresenter object, which
+ * runtime configuration changes of an TrailerPresenter object, which
  * plays the role of the "Presenter" in the MVP pattern.  The
  * MPV.RequiredViewOps and MVP.ProvidedPresenterOps interfaces are
  * used to minimize dependencies between the View and Presenter
  * layers.
  */
-public class DownloadWeatherActivity
-        extends GenericActivity<MVP.RequiredViewOps, MVP.ProvidedPresenterOps, WeatherPresenter>
+public class DownloadTrailerActivity
+        extends GenericActivity<MVP.RequiredViewOps, MVP.ProvidedPresenterOps, TrailerPresenter>
         implements MVP.RequiredViewOps {
     /**
      * Weather location entered by the user.
@@ -53,10 +53,10 @@ public class DownloadWeatherActivity
         mEditText = ((EditText) findViewById(R.id.locationQuery));
 
         // Perform second part of initializing the super class,
-        // passing in the WeatherPresenter class to instantiate/manage
-        // and "this" to provide WeatherPresenter with the
+        // passing in the TrailerPresenter class to instantiate/manage
+        // and "this" to provide TrailerPresenter with the
         // MVP.RequiredViewOps instance.
-        super.onCreate(WeatherPresenter.class, this);
+        super.onCreate(TrailerPresenter.class, this);
     }
 
     /**
@@ -78,7 +78,7 @@ public class DownloadWeatherActivity
      * Initiate the synchronous weather lookup when the user presses
      * the "Get Weather Sync" button.
      */
-    public void getWeatherSync(View v) {
+    public void getTrailerSync(View v) {
         // Hide the keyboard.
         Utils.hideKeyboard(this, mEditText.getWindowToken());
 
@@ -103,7 +103,7 @@ public class DownloadWeatherActivity
      * Initiate the asynchronous weather lookup when the user presses
      * the "Get Weather Async" button.
      */
-    public void getWeatherAsync(View v) {
+    public void getTrailerAsync(View v) {
         // Hide the keyboard.
         Utils.hideKeyboard(this, mEditText.getWindowToken());
 
@@ -136,11 +136,11 @@ public class DownloadWeatherActivity
         else {
             // Create an intent that will start an Activity to display
             // the TrailerData to the user.
-            final Intent intent = DisplayWeatherActivity.makeIntent(trailerData);
+            final Intent intent = DisplayTrailerActivity.makeIntent(trailerData);
 
             // Verify that the intent will resolve to an Activity.
             if (intent.resolveActivity(getPackageManager()) != null)
-                // Start the DisplayWeatherActivity with this implicit
+                // Start the DisplayTrailerActivity with this implicit
                 // intent.
                 startActivity(intent);
             else

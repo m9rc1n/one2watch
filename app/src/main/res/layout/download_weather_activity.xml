@@ -42,7 +42,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:onClick="getWeatherSync"
+            android:onClick="getTrailerSync"
             fab:fabColor="@color/theme_primary"
             fab:fabDrawable="@drawable/ic_download" />
     </FrameLayout>
@@ -71,7 +71,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:onClick="getWeatherAsync"
+            android:onClick="getTrailerAsync"
             fab:fabColor="@color/theme_primary"
             fab:fabDrawable="@drawable/ic_download" />
     </FrameLayout>

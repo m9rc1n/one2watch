@@ -8,19 +8,19 @@ import java.util.Calendar;
 import vandy.mooc.R;
 
 /**
- * WeatherUtils contains helper methods that properly format the TrailerData
+ * TrailerUtils contains helper methods that properly format the TrailerData
  * POJO and display it to the user.
  */
-public class WeatherUtils {
+public class TrailerUtils {
     /**
      * Logging tag.
      */
-    private final static String TAG = WeatherUtils.class.getCanonicalName();
+    private final static String TAG = TrailerUtils.class.getCanonicalName();
 
     /**
-     * Make WeatherUtils a utility class by preventing instantiation.
+     * Make TrailerUtils a utility class by preventing instantiation.
      */
-    private WeatherUtils() {
+    private TrailerUtils() {
         throw new AssertionError();
     }
 
