@@ -4,12 +4,9 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="19"
-        android:targetSdkVersion="22" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- TODO indexing -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
