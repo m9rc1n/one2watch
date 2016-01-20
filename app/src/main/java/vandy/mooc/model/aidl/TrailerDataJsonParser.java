@@ -15,6 +15,7 @@ import vandy.mooc.model.aidl.TrailerData.Thumb;
 import static vandy.mooc.model.aidl.TrailerData.Html5;
 import static vandy.mooc.model.aidl.TrailerData.duration_JSON;
 import static vandy.mooc.model.aidl.TrailerData.embed_JSON;
+import static vandy.mooc.model.aidl.TrailerData.id_JSON;
 import static vandy.mooc.model.aidl.TrailerData.imdb_id_JSON;
 import static vandy.mooc.model.aidl.TrailerData.link_JSON;
 import static vandy.mooc.model.aidl.TrailerData.movie_JSON;
@@ -55,6 +56,9 @@ public class TrailerDataJsonParser {
         while (reader.hasNext()) {
             String name = reader.nextName();
             switch (name) {
+                case id_JSON:
+                    data.setId(reader.nextLong());
+                    break;
                 case embed_JSON:
                     data.setEmbed(parseEmbed(reader));
                     break;

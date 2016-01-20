@@ -1,10 +1,9 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res/vandy.mooc"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:id="@+id/mainFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/locationQuery"
@@ -34,7 +33,7 @@
             android:text="@string/sync"
             android:textSize="16sp" />
 
-        <vandy.mooc.common.FloatingActionButton
+        <Button
             android:id="@+id/buttonSync"
             android:layout_width="72dp"
             android:layout_height="72dp"
@@ -42,9 +41,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:onClick="getTrailerSync"
-            fab:fabColor="@color/theme_primary"
-            fab:fabDrawable="@drawable/ic_download" />
+            android:onClick="getTrailerSync"/>
     </FrameLayout>
 
     <FrameLayout
@@ -63,7 +60,7 @@
             android:text="@string/async"
             android:textSize="16sp" />
 
-        <vandy.mooc.common.FloatingActionButton
+        <Button
             android:id="@+id/buttonAsync"
             android:layout_width="72dp"
             android:layout_height="72dp"
@@ -71,9 +68,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:onClick="getTrailerAsync"
-            fab:fabColor="@color/theme_primary"
-            fab:fabDrawable="@drawable/ic_download" />
+            android:onClick="getTrailerAsync"/>
     </FrameLayout>
 
 </RelativeLayout>

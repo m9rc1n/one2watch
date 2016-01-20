@@ -12,139 +12,59 @@ import vandy.mooc.common.Utils;
 import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.presenter.TrailerPresenter;
 
-/**
- * The main Activity that prompts the user for a location and then
- * displays TrailerData about this location via either retrieving the
- * TrailerData from a ContentProvider-based cache or from the Weather
- * Service web service via the use of Retrofit.  It plays the role of
- * the "View" in the Model-View-Presenter (MVP) pattern.  It extends
- * GenericActivity that provides a framework to automatically handle
- * runtime configuration changes of an TrailerPresenter object, which
- * plays the role of the "Presenter" in the MVP pattern.  The
- * MPV.RequiredViewOps and MVP.ProvidedPresenterOps interfaces are
- * used to minimize dependencies between the View and Presenter
- * layers.
- */
 public class DownloadTrailerActivity
         extends GenericActivity<MVP.RequiredViewOps, MVP.ProvidedPresenterOps, TrailerPresenter>
         implements MVP.RequiredViewOps {
-    /**
-     * Weather location entered by the user.
-     */
+
     protected EditText mEditText;
 
-    /**
-     * Hook method called when a new instance of Activity is created.
-     * One time initialization code goes here, e.g., initializing
-     * views.
-     *
-     * @param savedInstanceState object that contains saved state information.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Perform first part of initializing the super class.
         super.onCreate(savedInstanceState);
-
-        // Get references to the UI components.
         setContentView(R.layout.download_weather_activity);
-
-        // Store the EditText that holds the urls entered by the user
-        // (if any).
         mEditText = ((EditText) findViewById(R.id.locationQuery));
-
-        // Perform second part of initializing the super class,
-        // passing in the TrailerPresenter class to instantiate/manage
-        // and "this" to provide TrailerPresenter with the
-        // MVP.RequiredViewOps instance.
         super.onCreate(TrailerPresenter.class, this);
     }
 
-    /**
-     * Hook method called by Android when this Activity becomes is
-     * destroyed.
-     */
     @Override
     protected void onDestroy() {
-        // Destroy the presenter layer, passing in whether this is
-        // triggered by a runtime configuration or not.
         getPresenter().onDestroy(isChangingConfigurations());
-
-        // Always call super class for necessary operations when
-        // stopping.
         super.onDestroy();
     }
 
-    /*
-     * Initiate the synchronous weather lookup when the user presses
-     * the "Get Weather Sync" button.
-     */
     public void getTrailerSync(View v) {
-        // Hide the keyboard.
         Utils.hideKeyboard(this, mEditText.getWindowToken());
-
-        // Get the location entered by the user.
         final String location = Utils.uppercaseInput(this,
                 mEditText.getText().toString().trim(),
                 true);
         if (location != null) {
-            // Synchronously get the weather for the location.
             if (!getPresenter().getWeatherSync(location))
-                // Show error message to user.
                 Utils.showToast(this, "Call already in progress");
-
-            // Return focus to edit box and select all text in it
-            // after query.
             mEditText.requestFocus();
             mEditText.selectAll();
         }
     }
 
-    /*
-     * Initiate the asynchronous weather lookup when the user presses
-     * the "Get Weather Async" button.
-     */
     public void getTrailerAsync(View v) {
-        // Hide the keyboard.
         Utils.hideKeyboard(this, mEditText.getWindowToken());
-
-        // Get the location entered by the user.
         final String location = Utils.uppercaseInput(this,
                 mEditText.getText().toString().trim(),
                 true);
         if (location != null) {
-            // Asynchronously get the weather for the location.
             if (!getPresenter().getWeatherAsync(location))
-                // Show error message to user.
                 Utils.showToast(this, "Call already in progress");
-
-            // Return focus to edit box and select all text in it
-            // after query.
             mEditText.requestFocus();
             mEditText.selectAll();
         }
     }
 
-    /**
-     * Displays the weather data to the user.
-     *
-     * @param trailerData TrailerData to display
-     * @param errorMessage Reason that trailerData is null
-     */
     public void displayResults(TrailerData trailerData, String errorMessage) {
-        // Only display the results if we got valid TrailerData.
         if (trailerData == null) Utils.showToast(this, errorMessage);
         else {
-            // Create an intent that will start an Activity to display
-            // the TrailerData to the user.
             final Intent intent = DisplayTrailerActivity.makeIntent(trailerData);
-
-            // Verify that the intent will resolve to an Activity.
             if (intent.resolveActivity(getPackageManager()) != null)
-                // Start the DisplayTrailerActivity with this implicit
-                // intent.
                 startActivity(intent);
             else
-                // Show error message to user.
                 Utils.showToast(this, "No Activity found to display Weather Data");
         }
     }
