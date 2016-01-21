@@ -1,10 +1,12 @@
 package vandy.mooc.common;
 
 import android.content.Context;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 
 public abstract class GenericActivity<RequiredViewOps, ProvidedPresenterOps, PresenterType extends PresenterOps<RequiredViewOps>>
-        extends LifecycleLoggingActivity implements ContextView {
+        extends AppCompatActivity implements ContextView {
+
+    private static final String TAG = GenericActivity.class.getName();
 
     private final RetainedFragmentManager mRetainedFragmentManager = new RetainedFragmentManager(
             this.getFragmentManager(),
@@ -16,15 +18,12 @@ public abstract class GenericActivity<RequiredViewOps, ProvidedPresenterOps, Pre
 
         try {
             if (mRetainedFragmentManager.firstTimeIn()) {
-                Log.d(TAG, "First time calling onCreate()");
                 initialize(opsType, view);
             } else {
-                Log.d(TAG, "Second (or subsequent) time calling onCreate()");
                 reinitialize(opsType, view);
             }
         } catch (InstantiationException
                 | IllegalAccessException e) {
-            Log.d(TAG, "onCreate() " + e);
             throw new RuntimeException(e);
         }
     }
@@ -48,10 +47,8 @@ public abstract class GenericActivity<RequiredViewOps, ProvidedPresenterOps, Pre
     private void reinitialize(Class<PresenterType> opsType, RequiredViewOps view)
             throws InstantiationException, IllegalAccessException {
         mPresenterInstance = mRetainedFragmentManager.get(opsType.getSimpleName());
-        if (mPresenterInstance == null)
-            initialize(opsType, view);
-        else
-            mPresenterInstance.onConfigurationChange(view);
+        if (mPresenterInstance == null) initialize(opsType, view);
+        else mPresenterInstance.onConfigurationChange(view);
     }
 
     @Override
