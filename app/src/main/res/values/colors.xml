@@ -11,5 +11,12 @@
     <color name="theme_primary">#127ef8</color>
     <color name="fab">#33b5e5</color>
     <color name="black_alpha">#99000000</color>
-    
+
+    <color name="colorPrimary">#125688</color>
+    <color name="colorPrimaryDark">#125688</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#c8e8ff</color>
+
 </resources>

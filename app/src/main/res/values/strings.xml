@@ -21,5 +21,10 @@
 
     <!-- Humidity format CHAR LIMIT=25]-->
     <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
-    
+    <string name="one">One</string>
+    <string name="fourth">Fourth</string>
+    <string name="second">Second</string>
+    <string name="third">Third</string>
+    <string name="first">First</string>
+
 </resources>
