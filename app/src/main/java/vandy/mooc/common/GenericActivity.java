@@ -22,8 +22,7 @@ public abstract class GenericActivity<RequiredViewOps, ProvidedPresenterOps, Pre
             } else {
                 reinitialize(opsType, view);
             }
-        } catch (InstantiationException
-                | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

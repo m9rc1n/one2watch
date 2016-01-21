@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 public abstract class LifecycleLoggingService extends Service {
+
     protected final String TAG = getClass().getSimpleName();
 
     @Override

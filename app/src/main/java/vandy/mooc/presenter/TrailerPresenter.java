@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import vandy.mooc.MVP;
 import vandy.mooc.common.GenericAsyncTask;
@@ -14,15 +15,16 @@ import vandy.mooc.model.aidl.TrailerData;
 
 public class TrailerPresenter
         extends GenericPresenter<MVP.RequiredPresenterOps, MVP.ProvidedModelOps, TrailerModel>
-        implements GenericAsyncTaskOps<String, Void, TrailerData>,
+        implements GenericAsyncTaskOps<String, Void, List<TrailerData>>,
         MVP.ProvidedPresenterOps,
         MVP.RequiredPresenterOps {
 
     protected final static String TAG = TrailerPresenter.class.getSimpleName();
     private final Handler mDisplayHandler = new Handler();
     protected WeakReference<MVP.RequiredViewOps> mView;
-    private GenericAsyncTask<String, Void, TrailerData, TrailerPresenter> mAsyncTask;
+    private GenericAsyncTask<String, Void, List<TrailerData>, TrailerPresenter> mAsyncTask;
     private String mLocation;
+
     public TrailerPresenter() {
     }
 
@@ -55,22 +57,20 @@ public class TrailerPresenter
         }
     }
 
-    public TrailerData doInBackground(String... locations) {
+    public List<TrailerData> doInBackground(String... locations) {
         mLocation = locations[0];
         return getModel().getWeatherSync(mLocation);
     }
 
-    public void onPostExecute(TrailerData trailerData) {
-        mView.get()
-                .displayResults(trailerData,
-                        "No weather data for location \"" + mLocation + "\" found");
+    public void onPostExecute(List<TrailerData> results) {
+        mView.get().displayResults(results, "No weather data for location found");
         mAsyncTask = null;
     }
 
-    public void displayResults(final TrailerData trailerData, final String reason) {
+    public void displayResults(final List<TrailerData> results, final String reason) {
         mDisplayHandler.post(new Runnable() {
             public void run() {
-                mView.get().displayResults(trailerData, reason);
+                mView.get().displayResults(results, reason);
             }
         });
     }

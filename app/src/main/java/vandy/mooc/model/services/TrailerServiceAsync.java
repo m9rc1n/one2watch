@@ -26,15 +26,7 @@ public class TrailerServiceAsync extends TrailerServiceBase {
                 callback.sendError("Empty list");
                 return;
             }
-
-            for (TrailerData data : results) {
-                if (data != null) {
-                    callback.sendResults(data);
-                    return;
-                }
-            }
-
-            callback.sendError("Empty elements");
+            callback.sendResults(results);
         }
     };
 

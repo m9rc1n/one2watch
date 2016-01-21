@@ -5,6 +5,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import vandy.mooc.MVP;
 import vandy.mooc.common.GenericServiceConnection;
@@ -23,8 +24,8 @@ public class TrailerModel implements MVP.ProvidedModelOps {
     private final TrailerResults.Stub mWeatherResults = new TrailerResults.Stub() {
 
         @Override
-        public void sendResults(final TrailerData weatherResults) throws RemoteException {
-            mPresenter.get().displayResults(weatherResults, null);
+        public void sendResults(final List<TrailerData> results) throws RemoteException {
+            mPresenter.get().displayResults(results, null);
         }
 
         @Override
@@ -33,17 +34,17 @@ public class TrailerModel implements MVP.ProvidedModelOps {
         }
     };
 
-    private GenericServiceConnection<TrailerRequest> mTrailerServAsyncConn;
+    private GenericServiceConnection<TrailerRequest> mTrailerAsyncConn;
 
-    private GenericServiceConnection<TrailerCall> mTrailerServSyncConn;
+    private GenericServiceConnection<TrailerCall> mTrailerSyncConn;
 
     private String mLocation;
 
     @Override
     public void onCreate(MVP.RequiredPresenterOps presenter) {
         mPresenter = new WeakReference<>(presenter);
-        mTrailerServAsyncConn = new GenericServiceConnection<>(TrailerRequest.class);
-        mTrailerServSyncConn = new GenericServiceConnection<>(TrailerCall.class);
+        mTrailerAsyncConn = new GenericServiceConnection<>(TrailerRequest.class);
+        mTrailerSyncConn = new GenericServiceConnection<>(TrailerCall.class);
         bindService();
     }
 
@@ -56,21 +57,19 @@ public class TrailerModel implements MVP.ProvidedModelOps {
 
     private void bindService() {
         Log.d(TAG, "calling bindService()");
-        if (mTrailerServSyncConn.getInterface() == null) {
+        if (mTrailerSyncConn.getInterface() == null) {
             mPresenter.get()
                     .getApplicationContext()
                     .bindService(TrailerServiceSync.makeIntent(mPresenter.get()
-                                    .getActivityContext()),
-                            mTrailerServSyncConn,
+                                    .getActivityContext()), mTrailerSyncConn,
                             Context.BIND_AUTO_CREATE);
             Log.d(TAG, "Calling bindService() on TrailerServiceAsync");
         }
-        if (mTrailerServAsyncConn.getInterface() == null) {
+        if (mTrailerAsyncConn.getInterface() == null) {
             mPresenter.get()
                     .getApplicationContext()
                     .bindService(TrailerServiceAsync.makeIntent(mPresenter.get()
-                                    .getActivityContext()),
-                            mTrailerServAsyncConn,
+                                    .getActivityContext()), mTrailerAsyncConn,
                             Context.BIND_AUTO_CREATE);
             Log.d(TAG, "Calling bindService() on TrailerServiceAsync");
         }
@@ -78,15 +77,15 @@ public class TrailerModel implements MVP.ProvidedModelOps {
 
     private void unbindService() {
         Log.d(TAG, "calling unbindService()");
-        if (mTrailerServSyncConn.getInterface() != null)
-            mPresenter.get().getApplicationContext().unbindService(mTrailerServSyncConn);
-        if (mTrailerServAsyncConn.getInterface() != null)
-            mPresenter.get().getApplicationContext().unbindService(mTrailerServAsyncConn);
+        if (mTrailerSyncConn.getInterface() != null)
+            mPresenter.get().getApplicationContext().unbindService(mTrailerSyncConn);
+        if (mTrailerAsyncConn.getInterface() != null)
+            mPresenter.get().getApplicationContext().unbindService(mTrailerAsyncConn);
     }
 
     public boolean getWeatherAsync(String location) {
         try {
-            mTrailerServAsyncConn.getInterface().getCurrentTrailer(location, mWeatherResults);
+            mTrailerAsyncConn.getInterface().getCurrentTrailer(location, mWeatherResults);
             return true;
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -95,14 +94,9 @@ public class TrailerModel implements MVP.ProvidedModelOps {
 
     }
 
-    public TrailerData getWeatherSync(String location) {
+    public List<TrailerData> getWeatherSync(String location) {
         try {
-            for (TrailerData data : mTrailerServSyncConn.getInterface()
-                    .getCurrentTrailer(location)) {
-                if (data != null) {
-                    return data;
-                }
-            }
+            return mTrailerSyncConn.getInterface().getCurrentTrailer(location);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

@@ -1,10 +1,12 @@
-package vandy.mooc;
+package vandy.mooc.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import vandy.mooc.R;
 
 public class ThirdFragment extends Fragment {
 

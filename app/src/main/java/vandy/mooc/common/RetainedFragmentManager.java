@@ -20,7 +20,7 @@ public class RetainedFragmentManager {
     private RetainedFragment mRetainedFragment;
 
     public RetainedFragmentManager(FragmentManager fragmentManager, String retainedFragmentTag) {
-        mFragmentManager = new WeakReference<FragmentManager>(fragmentManager);
+        mFragmentManager = new WeakReference<>(fragmentManager);
         mRetainedFragmentTag = retainedFragmentTag;
     }
 
@@ -64,7 +64,7 @@ public class RetainedFragmentManager {
 
     public static class RetainedFragment extends Fragment {
 
-        private HashMap<String, Object> mData = new HashMap<String, Object>();
+        private HashMap<String, Object> mData = new HashMap<>();
 
         @Override
         public void onCreate(Bundle savedInstanceState) {

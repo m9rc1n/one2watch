@@ -27,5 +27,7 @@
     <string name="third">Third</string>
     <string name="first">First</string>
     <string name="aaa">AAA</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Hint</string>
 
 </resources>

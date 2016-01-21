@@ -3,45 +3,31 @@
     package="vandy.mooc"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- TODO indexing -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:launchMode="singleTop"
         android:theme="@style/MyMaterialTheme">
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".view.DownloadTrailerActivity"
-            android:label="@string/app_name">
-        </activity>
-        
-        <activity
-            android:name=".view.DisplayTrailerActivity"
-            android:label="@string/app_name">
-            <intent-filter >
-                <action android:name="vandy.mooc.intent.action.DISPLAY_TRAILER" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="parcelable/trailer" />
-            </intent-filter>
-        </activity>
-        
         <service
             android:name=".model.services.TrailerServiceAsync"
             android:process=":my_process"/>
-        
+
         <service
             android:name=".model.services.TrailerServiceSync"
             android:process=":my_process"/>

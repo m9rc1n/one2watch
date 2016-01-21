@@ -5,18 +5,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class RefCounted {
 
     protected final String TAG = getClass().getSimpleName();
-    protected final AtomicInteger mRefcount = new AtomicInteger();
+    protected final AtomicInteger mRefCount = new AtomicInteger();
     public int getRefcount() {
-        return mRefcount.get();
+        return mRefCount.get();
     }
 
     public final RefCounted incrementRefCount() {
-        mRefcount.incrementAndGet();
+        mRefCount.incrementAndGet();
         return this;
     }
 
     public int decrementRefCount() {
-        int count = mRefcount.decrementAndGet();
+        int count = mRefCount.decrementAndGet();
         if (count == 0) close();
         return count;
     }

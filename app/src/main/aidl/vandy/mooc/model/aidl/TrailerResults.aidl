@@ -4,6 +4,6 @@ import vandy.mooc.model.aidl.TrailerData;
 import java.util.List;
 
 interface TrailerResults {
-    oneway void sendResults(in TrailerData results);
+    oneway void sendResults(in List<TrailerData> results);
     oneway void sendError(in String reason);
 }

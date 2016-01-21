@@ -26,7 +26,7 @@ public class GenericServiceConnection<AIDLInterface extends android.os.IInterfac
                     stub = c;
                     method = stub.getMethod(AS_INTERFACE, AI_PARAMS);
                     break;
-                } catch (final NoSuchMethodException e) { // Should not be possible
+                } catch (final NoSuchMethodException e) {
                     e.printStackTrace();
                 }
             }

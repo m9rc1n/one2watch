@@ -1,15 +1,16 @@
 package vandy.mooc;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.EditText;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,15 @@ import vandy.mooc.common.GenericActivity;
 import vandy.mooc.common.Utils;
 import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.presenter.TrailerPresenter;
-import vandy.mooc.view.DisplayTrailerActivity;
+import vandy.mooc.view.FourthFragment;
+import vandy.mooc.view.OneFragment;
+import vandy.mooc.view.SecondFragment;
+import vandy.mooc.view.ThirdFragment;
 
 public class MainActivity
         extends GenericActivity<MVP.RequiredViewOps, MVP.ProvidedPresenterOps, TrailerPresenter>
         implements MVP.RequiredViewOps {
 
-    protected EditText mEditText;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -33,19 +36,13 @@ public class MainActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        mEditText = ((EditText) findViewById(R.id.searchEditText));
         super.onCreate(TrailerPresenter.class, this);
     }
 
@@ -64,38 +61,45 @@ public class MainActivity
         super.onDestroy();
     }
 
-    public void getTrailerSync(View v) {
-        Utils.hideKeyboard(this, mEditText.getWindowToken());
-        final String location = Utils.uppercaseInput(this,
-                mEditText.getText().toString().trim(),
-                true);
-        if (location != null) {
-            if (!getPresenter().getWeatherSync(location))
+    public void getTrailerSync(String search) {
+        if (search != null) {
+            if (!getPresenter().getWeatherSync(search))
                 Utils.showToast(this, "Call already in progress");
-            mEditText.requestFocus();
-            mEditText.selectAll();
         }
     }
 
-    public void getTrailerAsync(View v) {
-        Utils.hideKeyboard(this, mEditText.getWindowToken());
-        final String location = Utils.uppercaseInput(this,
-                mEditText.getText().toString().trim(),
-                true);
-        if (location != null) {
-            if (!getPresenter().getWeatherAsync(location))
+    public void getTrailerAsync(String search) {
+        if (search != null) {
+            if (!getPresenter().getWeatherAsync(search))
                 Utils.showToast(this, "Call already in progress");
-            mEditText.requestFocus();
-            mEditText.selectAll();
         }
     }
 
-    public void displayResults(TrailerData trailerData, String errorMessage) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_actions, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getTrailerAsync(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public void displayResults(List<TrailerData> trailerData, String errorMessage) {
         if (trailerData == null) Utils.showToast(this, errorMessage);
         else {
-            final Intent intent = DisplayTrailerActivity.makeIntent(trailerData);
-            if (intent.resolveActivity(getPackageManager()) != null) startActivity(intent);
-            else Utils.showToast(this, "No Activity found to display Weather Data");
+            sendBroadcast(OneFragment.makeIntent(trailerData));
         }
     }
 

@@ -9,9 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class ExecutorServiceTimeoutCache<K, V> extends RefCounted implements TimeoutCache<K, V> {
 
     protected final String TAG = getClass().getSimpleName();
-
     private ConcurrentHashMap<K, CacheValues> mResults = new ConcurrentHashMap<>();
-
     private ScheduledExecutorService mScheduledExecutorService = Executors.newScheduledThreadPool(1);
 
     @Override
@@ -58,7 +56,6 @@ public class ExecutorServiceTimeoutCache<K, V> extends RefCounted implements Tim
     class CacheValues {
 
         final public V mValue;
-
         public ScheduledFuture<?> mFuture = null;
 
         public CacheValues(V value) {

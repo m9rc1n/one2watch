@@ -1,4 +1,4 @@
-package vandy.mooc;
+package vandy.mooc.view;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -8,21 +8,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
+
+import vandy.mooc.R;
+import vandy.mooc.model.aidl.TrailerData;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
-    List<Person> persons;
+    ArrayList<TrailerData> trailers;
 
-    public RVAdapter(List<Person> persons) {
-        this.persons = persons;
+    public RVAdapter(ArrayList<TrailerData> trailers) {
+        this.trailers = trailers;
     }
 
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
-        personViewHolder.personName.setText(persons.get(i).name);
-        personViewHolder.personAge.setText(persons.get(i).age);
-        personViewHolder.personPhoto.setImageResource(persons.get(i).photoId);
+        personViewHolder.personName.setText(trailers.get(i).getMovie().getTitle());
+        personViewHolder.personAge.setText(trailers.get(i).getMovie().getPlot());
     }
 
     @Override
@@ -34,7 +36,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public int getItemCount() {
-        return persons.size();
+        return trailers.size();
     }
 
     @Override
