@@ -13,6 +13,7 @@ import vandy.mooc.model.aidl.TrailerCall;
 import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.model.aidl.TrailerRequest;
 import vandy.mooc.model.aidl.TrailerResults;
+import vandy.mooc.model.aidl.TrailerType;
 import vandy.mooc.model.services.TrailerServiceAsync;
 import vandy.mooc.model.services.TrailerServiceSync;
 
@@ -21,24 +22,38 @@ public class TrailerModel implements MVP.ProvidedModelOps {
     protected final static String TAG = TrailerModel.class.getSimpleName();
     protected WeakReference<MVP.RequiredPresenterOps> mPresenter;
 
-    private final TrailerResults.Stub mWeatherResults = new TrailerResults.Stub() {
+    private final TrailerResults.Stub mResults = new TrailerResults.Stub() {
 
         @Override
-        public void sendResults(final List<TrailerData> results) throws RemoteException {
-            mPresenter.get().displayResults(results, null);
+        public void sendPopularTrailersResults(List<TrailerData> results) throws RemoteException {
+            mPresenter.get().displayResults(results, null, TrailerType.POPULAR);
+        }
+
+        @Override
+        public void sendBoxOfficeTrailersResults(List<TrailerData> results) throws RemoteException {
+            mPresenter.get().displayResults(results, null, TrailerType.BOX_OFFICE);
+        }
+
+        @Override
+        public void sendComingSoonTrailersResults(List<TrailerData> results)
+                throws RemoteException {
+            mPresenter.get().displayResults(results, null, TrailerType.COMING_SOON);
+        }
+
+        @Override
+        public void sendTrailersResults(List<TrailerData> results) throws RemoteException {
+            mPresenter.get().displayResults(results, null, TrailerType.SEARCH);
         }
 
         @Override
         public void sendError(final String reason) throws RemoteException {
-            mPresenter.get().displayResults(null, reason);
+            mPresenter.get().displayResults(null, reason, TrailerType.ERROR);
         }
     };
 
     private GenericServiceConnection<TrailerRequest> mTrailerAsyncConn;
 
     private GenericServiceConnection<TrailerCall> mTrailerSyncConn;
-
-    private String mLocation;
 
     @Override
     public void onCreate(MVP.RequiredPresenterOps presenter) {
@@ -64,6 +79,12 @@ public class TrailerModel implements MVP.ProvidedModelOps {
                                     .getActivityContext()), mTrailerSyncConn,
                             Context.BIND_AUTO_CREATE);
             Log.d(TAG, "Calling bindService() on TrailerServiceAsync");
+            //            try {
+            //                mTrailerSyncConn.getInterface().getBoxOfficeTrailers(mResults);
+            //            } catch (RemoteException e) {
+            //                e.printStackTrace();
+            //            }
+
         }
         if (mTrailerAsyncConn.getInterface() == null) {
             mPresenter.get()
@@ -72,6 +93,11 @@ public class TrailerModel implements MVP.ProvidedModelOps {
                                     .getActivityContext()), mTrailerAsyncConn,
                             Context.BIND_AUTO_CREATE);
             Log.d(TAG, "Calling bindService() on TrailerServiceAsync");
+            //            try {
+            //                mTrailerAsyncConn.getInterface().getBoxOfficeTrailers(mResults);
+            //            } catch (RemoteException e) {
+            //                e.printStackTrace();
+            //            }
         }
     }
 
@@ -83,20 +109,77 @@ public class TrailerModel implements MVP.ProvidedModelOps {
             mPresenter.get().getApplicationContext().unbindService(mTrailerAsyncConn);
     }
 
-    public boolean getWeatherAsync(String location) {
+    public boolean getTrailersAsync(TrailerType type) {
         try {
-            mTrailerAsyncConn.getInterface().getCurrentTrailer(location, mWeatherResults);
+            switch (type) {
+                case BOX_OFFICE:
+                    mTrailerAsyncConn.getInterface().getBoxOfficeTrailers(mResults);
+                    break;
+                case POPULAR:
+                    mTrailerAsyncConn.getInterface().getPopularTrailers(mResults);
+                    break;
+                case COMING_SOON:
+                    mTrailerAsyncConn.getInterface().getComingSoonTrailers(mResults);
+                    break;
+                case SEARCH:
+                    mTrailerAsyncConn.getInterface().getTrailers("", mResults);
+                    break;
+                case ERROR:
+                    return false;
+            }
             return true;
         } catch (RemoteException e) {
             e.printStackTrace();
         }
         return false;
-
     }
 
-    public List<TrailerData> getWeatherSync(String location) {
+    public boolean getTrailersAsync(String query, TrailerType type) {
         try {
-            return mTrailerSyncConn.getInterface().getCurrentTrailer(location);
+            mTrailerAsyncConn.getInterface().getTrailers(query, mResults);
+            return true;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private String getTypePath(TrailerType type) {
+        switch (type) {
+            case BOX_OFFICE:
+                return "boxoffice";
+            case POPULAR:
+                return "popular";
+            case COMING_SOON:
+                return "trailers";
+            case SEARCH:
+                return "trailers";
+        }
+        return null;
+    }
+
+    public List<TrailerData> getTrailersSync(TrailerType type) {
+        try {
+            switch (type) {
+                case BOX_OFFICE:
+                    return mTrailerSyncConn.getInterface().getBoxOfficeTrailers();
+                case POPULAR:
+                    return mTrailerSyncConn.getInterface().getPopularTrailers();
+                case COMING_SOON:
+                    return mTrailerSyncConn.getInterface().getComingSoonTrailers();
+                case SEARCH:
+                    return mTrailerSyncConn.getInterface().getTrailers("");
+                case ERROR:
+            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<TrailerData> getTrailersSync(String query, TrailerType type) {
+        try {
+            return mTrailerSyncConn.getInterface().getTrailers(query);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

@@ -18,6 +18,7 @@ import java.util.List;
 import vandy.mooc.common.GenericActivity;
 import vandy.mooc.common.Utils;
 import vandy.mooc.model.aidl.TrailerData;
+import vandy.mooc.model.aidl.TrailerType;
 import vandy.mooc.presenter.TrailerPresenter;
 import vandy.mooc.view.BoxOfficeFragment;
 import vandy.mooc.view.ComingSoonFragment;
@@ -61,17 +62,29 @@ public class MainActivity
         super.onDestroy();
     }
 
-    public void getTrailerSync(String search) {
+    public void getTrailerSync(String search, TrailerType type) {
         if (search != null) {
-            if (!getPresenter().getWeatherSync(search))
-                Utils.showToast(this, "Call already in progress");
+            if (!getPresenter().getTrailersSync(search, type))
+                Utils.showToast(getCurrentFocus(), "Call already in progress");
         }
     }
 
-    public void getTrailerAsync(String search) {
+    public void getTrailerAsync(String search, TrailerType type) {
         if (search != null) {
-            if (!getPresenter().getWeatherAsync(search))
-                Utils.showToast(this, "Call already in progress");
+            if (!getPresenter().getTrailersAsync(search, type)) {
+                Utils.showToast(toolbar, "Call already in progress");
+            }
+        }
+    }
+
+    public void getTrailerSync(TrailerType type) {
+        if (!getPresenter().getTrailersSync(type))
+            Utils.showToast(toolbar, "Call already in progress");
+    }
+
+    public void getTrailerAsync(TrailerType type) {
+        if (!getPresenter().getTrailersAsync(type)) {
+            Utils.showToast(toolbar, "Call already in progress");
         }
     }
 
@@ -84,7 +97,9 @@ public class MainActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                getTrailerAsync(query);
+                getTrailerAsync(TrailerType.BOX_OFFICE);
+                getTrailerAsync(TrailerType.COMING_SOON);
+                getTrailerAsync(TrailerType.POPULAR);
                 return false;
             }
 
@@ -96,10 +111,25 @@ public class MainActivity
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void displayResults(List<TrailerData> trailerData, String errorMessage) {
-        if (trailerData == null) Utils.showToast(this, errorMessage);
+    public void displayResults(List<TrailerData> trailerData,
+                               String errorMessage,
+                               TrailerType type) {
+        if (trailerData == null) Utils.showToast(toolbar, errorMessage);
         else {
-            sendBroadcast(BoxOfficeFragment.makeIntent(trailerData));
+            switch (type) {
+                case BOX_OFFICE:
+                    sendBroadcast(BoxOfficeFragment.makeIntent(trailerData));
+                    break;
+                case POPULAR:
+                    sendBroadcast(PopularFragment.makeIntent(trailerData));
+                    break;
+                case COMING_SOON:
+                    sendBroadcast(ComingSoonFragment.makeIntent(trailerData));
+                    break;
+                case SEARCH:
+                    sendBroadcast(SearchFragment.makeIntent(trailerData));
+                    break;
+            }
         }
     }
 

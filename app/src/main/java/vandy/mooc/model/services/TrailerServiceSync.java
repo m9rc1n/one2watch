@@ -15,8 +15,23 @@ public class TrailerServiceSync extends TrailerServiceBase {
     private final TrailerCall.Stub mWeatherCallImpl = new TrailerCall.Stub() {
 
         @Override
-        public List<TrailerData> getCurrentTrailer(String location) throws RemoteException {
-            return getTrailerResults(location);
+        public List<TrailerData> getPopularTrailers() throws RemoteException {
+            return getTrailerResults("popular");
+        }
+
+        @Override
+        public List<TrailerData> getBoxOfficeTrailers() throws RemoteException {
+            return getTrailerResults("/boxoffice");
+        }
+
+        @Override
+        public List<TrailerData> getComingSoonTrailers() throws RemoteException {
+            return getTrailerResults("/trailers");
+        }
+
+        @Override
+        public List<TrailerData> getTrailers(String query) throws RemoteException {
+            return getTrailerResults("/trailers?title=" + query);
         }
     };
 

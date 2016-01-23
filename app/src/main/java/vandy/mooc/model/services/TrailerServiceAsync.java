@@ -18,15 +18,43 @@ public class TrailerServiceAsync extends TrailerServiceBase {
     private final TrailerRequest.Stub mWeatherRequestImpl = new TrailerRequest.Stub() {
 
         @Override
-        public void getCurrentTrailer(final String location, final TrailerResults callback)
-                throws RemoteException {
-            List<TrailerData> results = getTrailerResults(location);
-
+        public void getPopularTrailers(TrailerResults callback) throws RemoteException {
+            List<TrailerData> results = getTrailerResults("/popular");
             if (results == null) {
                 callback.sendError("Empty list");
-                return;
+            } else {
+                callback.sendPopularTrailersResults(results);
             }
-            callback.sendResults(results);
+        }
+
+        @Override
+        public void getBoxOfficeTrailers(TrailerResults callback) throws RemoteException {
+            List<TrailerData> results = getTrailerResults("/boxoffice");
+            if (results == null) {
+                callback.sendError("Empty list");
+            } else {
+                callback.sendBoxOfficeTrailersResults(results);
+            }
+        }
+
+        @Override
+        public void getComingSoonTrailers(TrailerResults callback) throws RemoteException {
+            List<TrailerData> results = getTrailerResults("/trailers");
+            if (results == null) {
+                callback.sendError("Empty list");
+            } else {
+                callback.sendComingSoonTrailersResults(results);
+            }
+        }
+
+        @Override
+        public void getTrailers(String query, TrailerResults callback) throws RemoteException {
+            List<TrailerData> results = getTrailerResults("/trailers?title=" + query);
+            if (results == null) {
+                callback.sendError("Empty list");
+            } else {
+                callback.sendTrailersResults(results);
+            }
         }
     };
 

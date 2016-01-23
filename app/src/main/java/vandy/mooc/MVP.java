@@ -6,25 +6,35 @@ import vandy.mooc.common.ContextView;
 import vandy.mooc.common.ModelOps;
 import vandy.mooc.common.PresenterOps;
 import vandy.mooc.model.aidl.TrailerData;
+import vandy.mooc.model.aidl.TrailerType;
 
 public interface MVP {
 
     interface RequiredViewOps extends ContextView {
-        void displayResults(List<TrailerData> trailerData, String errorReason);
+        void displayResults(List<TrailerData> trailerData, String errorReason, TrailerType type);
     }
 
     interface ProvidedPresenterOps extends PresenterOps<MVP.RequiredViewOps> {
-        boolean getWeatherAsync(String location);
-        boolean getWeatherSync(String location);
+        boolean getTrailersAsync(String query, TrailerType type);
+
+        boolean getTrailersAsync(TrailerType type);
+
+        boolean getTrailersSync(String query, TrailerType type);
+
+        boolean getTrailersSync(TrailerType type);
     }
 
     interface RequiredPresenterOps extends ContextView {
-        void displayResults(List<TrailerData> trailerData, String errorMessage);
+        void displayResults(List<TrailerData> trailerData, String errorMessage, TrailerType type);
     }
 
     interface ProvidedModelOps extends ModelOps<MVP.RequiredPresenterOps> {
-        boolean getWeatherAsync(String location);
+        boolean getTrailersAsync(String query, TrailerType type);
 
-        List<TrailerData> getWeatherSync(String location);
+        boolean getTrailersAsync(TrailerType type);
+
+        List<TrailerData> getTrailersSync(String query, TrailerType type);
+
+        List<TrailerData> getTrailersSync(TrailerType type);
     }
 }

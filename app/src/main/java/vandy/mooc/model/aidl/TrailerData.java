@@ -5,16 +5,18 @@ import android.os.Parcelable;
 
 public class TrailerData implements Parcelable {
 
-    final public static String id_JSON = "id";
-    final public static String title_JSON = "title";
-    final public static String imdb_id_JSON = "imdb_id";
-    final public static String type_JSON = "type";
-    final public static String rating_JSON = "rating";
-    final public static String duration_JSON = "duration";
-    final public static String thumb_JSON = "thumb";
-    final public static String embed_JSON = "embed";
-    final public static String link_JSON = "link";
-    final public static String movie_JSON = "movie";
+    public static final String TYPE_TRAILER = "parcelable/trailer";
+    public static final String KEY_TRAILER_DATA = "trailerList";
+    public static final String id_JSON = "id";
+    public static final String title_JSON = "title";
+    public static final String imdb_id_JSON = "imdb_id";
+    public static final String type_JSON = "type";
+    public static final String rating_JSON = "rating";
+    public static final String duration_JSON = "duration";
+    public static final String thumb_JSON = "thumb";
+    public static final String embed_JSON = "embed";
+    public static final String link_JSON = "link";
+    public static final String movie_JSON = "movie";
 
     public static final Parcelable.Creator<TrailerData> CREATOR = new Parcelable.Creator<TrailerData>() {
         public TrailerData createFromParcel(Parcel in) {

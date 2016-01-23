@@ -5,6 +5,7 @@ import android.util.Log;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -19,9 +20,9 @@ public class TrailerServiceBase extends LifecycleLoggingService {
 
     private final String mAppId = "kEm5QgSMTNmshZsKR2thZixJaPNxp1JfEsojsnojdBmMWBRgyD";
 
-    private String mTrailerServiceURL = "https://themovieclips.p.mashape.com/popular";
+    private String mHostURL = "https://themovieclips.p.mashape.com/";
 
-    private int DEFAULT_CACHE_TIMEOUT = 10;
+    private int DEFAULT_CACHE_TIMEOUT = 100;
 
     @Override
     public void onCreate() {
@@ -43,7 +44,12 @@ public class TrailerServiceBase extends LifecycleLoggingService {
         if (data != null) {
             return data;
         } else {
-            List<TrailerData> results = getResultsFromTrailerService(location);
+            List<TrailerData> results = null;
+            try {
+                results = getResultsFromTrailerService(new URL(mHostURL + location));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             if (results != null) {
                 cache.put(location, results, DEFAULT_CACHE_TIMEOUT);
             }
@@ -51,10 +57,9 @@ public class TrailerServiceBase extends LifecycleLoggingService {
         }
     }
 
-    private List<TrailerData> getResultsFromTrailerService(String location) {
+    private List<TrailerData> getResultsFromTrailerService(URL url) {
         List<TrailerData> returnList = null;
         try {
-            URL url = new URL(mTrailerServiceURL);
             final URI uri = new URI(url.getProtocol(),
                     url.getUserInfo(),
                     url.getHost(),
