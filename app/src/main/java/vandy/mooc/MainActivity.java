@@ -19,10 +19,10 @@ import vandy.mooc.common.GenericActivity;
 import vandy.mooc.common.Utils;
 import vandy.mooc.model.aidl.TrailerData;
 import vandy.mooc.presenter.TrailerPresenter;
-import vandy.mooc.view.FourthFragment;
-import vandy.mooc.view.OneFragment;
-import vandy.mooc.view.SecondFragment;
-import vandy.mooc.view.ThirdFragment;
+import vandy.mooc.view.BoxOfficeFragment;
+import vandy.mooc.view.ComingSoonFragment;
+import vandy.mooc.view.PopularFragment;
+import vandy.mooc.view.SearchFragment;
 
 public class MainActivity
         extends GenericActivity<MVP.RequiredViewOps, MVP.ProvidedPresenterOps, TrailerPresenter>
@@ -48,10 +48,10 @@ public class MainActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OneFragment(), "ONE");
-        adapter.addFragment(new SecondFragment(), "TWO");
-        adapter.addFragment(new ThirdFragment(), "THREE");
-        adapter.addFragment(new FourthFragment(), "FOUR");
+        adapter.addFragment(new BoxOfficeFragment(), "Box office");
+        adapter.addFragment(new ComingSoonFragment(), "Coming Soon");
+        adapter.addFragment(new PopularFragment(), "Popular");
+        adapter.addFragment(new SearchFragment(), "Search");
         viewPager.setAdapter(adapter);
     }
 
@@ -99,7 +99,7 @@ public class MainActivity
     public void displayResults(List<TrailerData> trailerData, String errorMessage) {
         if (trailerData == null) Utils.showToast(this, errorMessage);
         else {
-            sendBroadcast(OneFragment.makeIntent(trailerData));
+            sendBroadcast(BoxOfficeFragment.makeIntent(trailerData));
         }
     }
 

@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import vandy.mooc.R;
 
-public class SecondFragment extends Fragment {
+public class PopularFragment extends Fragment {
 
-    public SecondFragment() {
+    public PopularFragment() {
     }
 
     @Override
@@ -20,7 +20,7 @@ public class SecondFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
-        return inflater.inflate(R.layout.fragment_second, container, false);
+        return inflater.inflate(R.layout.fragment_trailers, container, false);
     }
 
 }

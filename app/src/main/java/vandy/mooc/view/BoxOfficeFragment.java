@@ -18,15 +18,15 @@ import java.util.List;
 import vandy.mooc.R;
 import vandy.mooc.model.aidl.TrailerData;
 
-public class OneFragment extends Fragment {
+public class BoxOfficeFragment extends Fragment {
 
-    public static final String ACTION_DISPLAY_TRAILER = "vandy.mooc.intent.action.OneFragment";
+    public static final String ACTION_DISPLAY_TRAILER = "vandy.mooc.intent.action.BoxOfficeFragment";
     public static final String TYPE_TRAILER = "parcelable/trailer";
     public static final String KEY_TRAILER_DATA = "trailerList";
     private RecyclerView rv;
     private BroadcastReceiver mReceiver;
 
-    public OneFragment() {
+    public BoxOfficeFragment() {
     }
 
     public static Intent makeIntent(List<TrailerData> results) {
@@ -52,7 +52,7 @@ public class OneFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
-        View view = inflater.inflate(R.layout.fragment_one, container, false);
+        View view = inflater.inflate(R.layout.fragment_trailers, container, false);
 
         rv = (RecyclerView) view.findViewById(R.id.rv);
         rv.setHasFixedSize(true);

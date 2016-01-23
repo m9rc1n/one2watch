@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import vandy.mooc.R;
 
-public class FourthFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
-    public FourthFragment() {
+    public SearchFragment() {
     }
 
     @Override
@@ -20,7 +20,7 @@ public class FourthFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
-        return inflater.inflate(R.layout.fragment_fourth, container, false);
+        return inflater.inflate(R.layout.fragment_trailers, container, false);
     }
 
 }
