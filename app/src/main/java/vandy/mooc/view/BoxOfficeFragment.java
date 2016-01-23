@@ -20,9 +20,7 @@ import vandy.mooc.model.aidl.TrailerData;
 
 public class BoxOfficeFragment extends Fragment {
 
-    public static final String ACTION_DISPLAY_TRAILER = "vandy.mooc.intent.action.BoxOfficeFragment";
-    public static final String TYPE_TRAILER = "parcelable/trailer";
-    public static final String KEY_TRAILER_DATA = "trailerList";
+    public static final String ACTION_DISPLAY = "vandy.mooc.intent.action.BoxOfficeFragment";
     private RecyclerView rv;
     private BroadcastReceiver mReceiver;
 
@@ -32,8 +30,9 @@ public class BoxOfficeFragment extends Fragment {
     public static Intent makeIntent(List<TrailerData> results) {
         ArrayList<TrailerData> arrayListResults = new ArrayList<>(results.size());
         arrayListResults.addAll(results);
-        return new Intent(ACTION_DISPLAY_TRAILER).addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
-                .putParcelableArrayListExtra(KEY_TRAILER_DATA, arrayListResults);
+        return new Intent(ACTION_DISPLAY).addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES)
+                .setType(TrailerData.TYPE_TRAILER)
+                .putParcelableArrayListExtra(TrailerData.KEY_TRAILER_DATA, arrayListResults);
     }
 
     @Override
@@ -43,11 +42,11 @@ public class BoxOfficeFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 RVAdapter adapter = new RVAdapter(intent.<TrailerData>getParcelableArrayListExtra(
-                        KEY_TRAILER_DATA));
+                        TrailerData.KEY_TRAILER_DATA));
                 rv.setAdapter(adapter);
             }
         };
-        getContext().registerReceiver(mReceiver, new IntentFilter(ACTION_DISPLAY_TRAILER));
+        getContext().registerReceiver(mReceiver, new IntentFilter(ACTION_DISPLAY));
     }
 
     @Override
