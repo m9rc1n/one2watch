@@ -19,7 +19,8 @@ import vandy.mooc.R;
 import vandy.mooc.model.aidl.TrailerData;
 
 public class PopularFragment extends Fragment {
-    public static final String ACTION_DISPLAY = "vandy.mooc.intent.action.PopularFragment";
+    public static final String ACTION_DISPLAY = "vandy.mooc.view.PopularFragment:ACTION_DISPLAY";
+    public static final String ACTION_SYNC = "vandy.mooc.view.PopularFragment:ACTION_SYNC";
     private RecyclerView rv;
     private BroadcastReceiver mReceiver;
 
@@ -39,9 +40,13 @@ public class PopularFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                RVAdapter adapter = new RVAdapter(intent.<TrailerData>getParcelableArrayListExtra(
-                        TrailerData.KEY_TRAILER_DATA));
-                rv.setAdapter(adapter);
+                switch (intent.getAction()) {
+                    case ACTION_DISPLAY:
+                        RVAdapter adapter = new RVAdapter(intent.<TrailerData>getParcelableArrayListExtra(
+                                TrailerData.KEY_TRAILER_DATA));
+                        rv.setAdapter(adapter);
+                        break;
+                }
             }
         };
         getContext().registerReceiver(mReceiver, new IntentFilter(ACTION_DISPLAY));
@@ -58,6 +63,12 @@ public class PopularFragment extends Fragment {
         rv.setLayoutManager(llm);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getContext().sendBroadcast(new Intent(ACTION_SYNC));
     }
 
     @Override

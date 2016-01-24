@@ -22,7 +22,7 @@ public class TrailerServiceBase extends LifecycleLoggingService {
 
     private String mHostURL = "https://themovieclips.p.mashape.com/";
 
-    private int DEFAULT_CACHE_TIMEOUT = 100;
+    private int DEFAULT_CACHE_TIMEOUT = 3600000;
 
     @Override
     public void onCreate() {

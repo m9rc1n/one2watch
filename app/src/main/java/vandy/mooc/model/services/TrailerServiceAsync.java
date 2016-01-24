@@ -15,7 +15,7 @@ import vandy.mooc.model.aidl.TrailerResults;
 
 public class TrailerServiceAsync extends TrailerServiceBase {
 
-    private final TrailerRequest.Stub mWeatherRequestImpl = new TrailerRequest.Stub() {
+    private final TrailerRequest.Stub mTrailerRequestImpl = new TrailerRequest.Stub() {
 
         @Override
         public void getPopularTrailers(TrailerResults callback) throws RemoteException {
@@ -78,6 +78,6 @@ public class TrailerServiceAsync extends TrailerServiceBase {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return mWeatherRequestImpl;
+        return mTrailerRequestImpl;
     }
 }

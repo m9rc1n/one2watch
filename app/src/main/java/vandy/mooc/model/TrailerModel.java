@@ -58,9 +58,10 @@ public class TrailerModel implements MVP.ProvidedModelOps {
     @Override
     public void onCreate(MVP.RequiredPresenterOps presenter) {
         mPresenter = new WeakReference<>(presenter);
-        mTrailerAsyncConn = new GenericServiceConnection<>(TrailerRequest.class);
-        mTrailerSyncConn = new GenericServiceConnection<>(TrailerCall.class);
+        mTrailerAsyncConn = new TrailerServiceConnection<>(TrailerRequest.class, mPresenter);
+        mTrailerSyncConn = new TrailerServiceConnection<>(TrailerCall.class, mPresenter);
         bindService();
+
     }
 
     @Override
@@ -79,12 +80,6 @@ public class TrailerModel implements MVP.ProvidedModelOps {
                                     .getActivityContext()), mTrailerSyncConn,
                             Context.BIND_AUTO_CREATE);
             Log.d(TAG, "Calling bindService() on TrailerServiceAsync");
-            //            try {
-            //                mTrailerSyncConn.getInterface().getBoxOfficeTrailers(mResults);
-            //            } catch (RemoteException e) {
-            //                e.printStackTrace();
-            //            }
-
         }
         if (mTrailerAsyncConn.getInterface() == null) {
             mPresenter.get()
@@ -93,11 +88,6 @@ public class TrailerModel implements MVP.ProvidedModelOps {
                                     .getActivityContext()), mTrailerAsyncConn,
                             Context.BIND_AUTO_CREATE);
             Log.d(TAG, "Calling bindService() on TrailerServiceAsync");
-            //            try {
-            //                mTrailerAsyncConn.getInterface().getBoxOfficeTrailers(mResults);
-            //            } catch (RemoteException e) {
-            //                e.printStackTrace();
-            //            }
         }
     }
 

@@ -19,7 +19,8 @@ import vandy.mooc.R;
 import vandy.mooc.model.aidl.TrailerData;
 
 public class SearchFragment extends Fragment {
-    public static final String ACTION_DISPLAY = "vandy.mooc.intent.action.SearchFragment";
+    public static final String ACTION_DISPLAY = "vandy.mooc.view.SearchFragment:ACTION_DISPLAY";
+    public static final String ACTION_SYNC = "vandy.mooc.view.SearchFragment:ACTION_SYNC";
     private RecyclerView rv;
     private BroadcastReceiver mReceiver;
 
@@ -39,9 +40,13 @@ public class SearchFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                RVAdapter adapter = new RVAdapter(intent.<TrailerData>getParcelableArrayListExtra(
-                        TrailerData.KEY_TRAILER_DATA));
-                rv.setAdapter(adapter);
+                switch (intent.getAction()) {
+                    case ACTION_DISPLAY:
+                        RVAdapter adapter = new RVAdapter(intent.<TrailerData>getParcelableArrayListExtra(
+                                TrailerData.KEY_TRAILER_DATA));
+                        rv.setAdapter(adapter);
+                        break;
+                }
             }
         };
         getContext().registerReceiver(mReceiver, new IntentFilter(ACTION_DISPLAY));

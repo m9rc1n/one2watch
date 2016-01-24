@@ -24,7 +24,6 @@ public class TrailerPresenter
     private final Handler mDisplayHandler = new Handler();
     protected WeakReference<MVP.RequiredViewOps> mView;
     private TrailerAsyncTask<String, Void, List<TrailerData>, TrailerPresenter> mAsyncTask;
-    private String mLocation;
 
     public TrailerPresenter() {
     }
@@ -49,8 +48,7 @@ public class TrailerPresenter
         if (locations == null || locations.length == 0) {
             return getModel().getTrailersSync(mAsyncTask.getType());
         } else {
-            mLocation = locations[0];
-            return getModel().getTrailersSync(mLocation, mAsyncTask.getType());
+            return getModel().getTrailersSync(locations[0], mAsyncTask.getType());
         }
     }
 
@@ -73,8 +71,8 @@ public class TrailerPresenter
     }
 
     @Override
-    public boolean getTrailersAsync(String query, TrailerType type) {
-        return getModel().getTrailersAsync(query, type);
+    public boolean getTrailersAsync(String query) {
+        return getModel().getTrailersAsync(query, TrailerType.SEARCH);
     }
 
     @Override
@@ -83,11 +81,11 @@ public class TrailerPresenter
     }
 
     @Override
-    public boolean getTrailersSync(String query, TrailerType type) {
+    public boolean getTrailersSync(String query) {
 
         if (mAsyncTask != null) return false;
         else {
-            mAsyncTask = new TrailerAsyncTask<>(this, type);
+            mAsyncTask = new TrailerAsyncTask<>(this, TrailerType.SEARCH);
             mAsyncTask.execute(query);
             return true;
         }
@@ -111,6 +109,15 @@ public class TrailerPresenter
         mDisplayHandler.post(new Runnable() {
             public void run() {
                 mView.get().displayResults(results, reason, type);
+            }
+        });
+    }
+
+    @Override
+    public void synchronizeAll() {
+        mDisplayHandler.post(new Runnable() {
+            public void run() {
+                mView.get().synchronizeAll();
             }
         });
     }

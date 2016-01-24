@@ -28,32 +28,57 @@ import vandy.mooc.view.SearchFragment;
 public class MainActivity
         extends GenericActivity<MVP.RequiredViewOps, MVP.ProvidedPresenterOps, TrailerPresenter>
         implements MVP.RequiredViewOps {
-
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private Toolbar mToolbar;
+    private ViewPager mViewPager;
+    private String mQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
         super.onCreate(TrailerPresenter.class, this);
+        setContentView(R.layout.activity_main);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(mViewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BoxOfficeFragment(), "Box office");
-        adapter.addFragment(new ComingSoonFragment(), "Coming Soon");
-        adapter.addFragment(new PopularFragment(), "Popular");
-        adapter.addFragment(new SearchFragment(), "Search");
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new BoxOfficeFragment(), getString(R.string.box_office));
+        adapter.addFragment(new ComingSoonFragment(), getString(R.string.coming_soon));
+        adapter.addFragment(new PopularFragment(), getString(R.string.popular));
+        adapter.addFragment(new SearchFragment(), getString(R.string.search));
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position,
+                                       float positionOffset,
+                                       int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                String current = adapter.getPageTitle(position).toString();
+                if (current.equals(getString(R.string.box_office))) {
+                    getTrailerAsync(TrailerType.BOX_OFFICE);
+                } else if (current.equals(getString(R.string.coming_soon))) {
+                    getTrailerAsync(TrailerType.COMING_SOON);
+                } else if (current.equals(getString(R.string.popular))) {
+                    getTrailerAsync(TrailerType.POPULAR);
+                } else if (current.equals(getString(R.string.search))) {
+                    getTrailerAsync(mQuery);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -62,29 +87,29 @@ public class MainActivity
         super.onDestroy();
     }
 
-    public void getTrailerSync(String search, TrailerType type) {
+    public void getTrailerSync(String search) {
         if (search != null) {
-            if (!getPresenter().getTrailersSync(search, type))
+            if (!getPresenter().getTrailersSync(search))
                 Utils.showToast(getCurrentFocus(), "Call already in progress");
         }
     }
 
-    public void getTrailerAsync(String search, TrailerType type) {
+    public void getTrailerAsync(String search) {
         if (search != null) {
-            if (!getPresenter().getTrailersAsync(search, type)) {
-                Utils.showToast(toolbar, "Call already in progress");
+            if (!getPresenter().getTrailersAsync(search)) {
+                Utils.showToast(mToolbar, "Call already in progress");
             }
         }
     }
 
     public void getTrailerSync(TrailerType type) {
         if (!getPresenter().getTrailersSync(type))
-            Utils.showToast(toolbar, "Call already in progress");
+            Utils.showToast(mToolbar, "Call already in progress");
     }
 
     public void getTrailerAsync(TrailerType type) {
         if (!getPresenter().getTrailersAsync(type)) {
-            Utils.showToast(toolbar, "Call already in progress");
+            Utils.showToast(mToolbar, "Call already in progress");
         }
     }
 
@@ -97,9 +122,9 @@ public class MainActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                getTrailerAsync(TrailerType.BOX_OFFICE);
-                getTrailerAsync(TrailerType.COMING_SOON);
-                getTrailerAsync(TrailerType.POPULAR);
+                mQuery = query;
+                getTrailerAsync(mQuery);
+                mViewPager.setCurrentItem(3);
                 return false;
             }
 
@@ -114,7 +139,7 @@ public class MainActivity
     public void displayResults(List<TrailerData> trailerData,
                                String errorMessage,
                                TrailerType type) {
-        if (trailerData == null) Utils.showToast(toolbar, errorMessage);
+        if (trailerData == null) Utils.showToast(mToolbar, errorMessage);
         else {
             switch (type) {
                 case BOX_OFFICE:
@@ -131,6 +156,13 @@ public class MainActivity
                     break;
             }
         }
+    }
+
+    @Override
+    public void synchronizeAll() {
+        getTrailerAsync(TrailerType.BOX_OFFICE);
+        getTrailerAsync(TrailerType.COMING_SOON);
+        getTrailerAsync(TrailerType.POPULAR);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
