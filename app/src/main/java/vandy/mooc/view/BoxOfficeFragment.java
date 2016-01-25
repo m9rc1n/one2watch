@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +24,12 @@ import vandy.mooc.model.aidl.TrailerData;
 public class BoxOfficeFragment extends Fragment {
     public static final String ACTION_DISPLAY = "vandy.mooc.view.BoxOfficeFragment:ACTION_DISPLAY";
     public static final String ACTION_SYNC = "vandy.mooc.view.BoxOfficeFragment:ACTION_SYNC";
+    private final ImageLoader imageLoader;
     private RecyclerView rv;
     private BroadcastReceiver mReceiver;
 
     public BoxOfficeFragment() {
+        imageLoader = ImageLoader.getInstance();
     }
 
     public static Intent makeIntent(List<TrailerData> results) {
@@ -37,13 +42,15 @@ public class BoxOfficeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case ACTION_DISPLAY:
-                        RVAdapter adapter = new RVAdapter(intent.<TrailerData>getParcelableArrayListExtra(
-                                TrailerData.KEY_TRAILER_DATA));
+                        ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(
+                                TrailerData.KEY_TRAILER_DATA);
+                        RVAdapter adapter = new RVAdapter(trailers, imageLoader);
                         rv.setAdapter(adapter);
                         break;
                 }
@@ -63,12 +70,6 @@ public class BoxOfficeFragment extends Fragment {
         rv.setLayoutManager(llm);
 
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getContext().sendBroadcast(new Intent(ACTION_SYNC));
     }
 
     @Override
