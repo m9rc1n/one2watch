@@ -12,4 +12,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ProgressRotateOuroboros" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@drawable/rotate_ouroboros</item>
+    </style>
+
 </resources>

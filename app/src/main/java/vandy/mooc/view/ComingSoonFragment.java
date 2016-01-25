@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -25,8 +26,9 @@ public class ComingSoonFragment extends Fragment {
     public static final String ACTION_DISPLAY = "vandy.mooc.view.ComingSoonFragment:ACTION_DISPLAY";
     public static final String ACTION_SYNC = "vandy.mooc.view.ComingSoonFragment:ACTION_SYNC";
     private final ImageLoader imageLoader;
-    private RecyclerView rv;
     private BroadcastReceiver mReceiver;
+    private RecyclerView mRecycleView;
+    private ProgressBar mProgressBar;
 
     public ComingSoonFragment() {
         imageLoader = ImageLoader.getInstance();
@@ -51,7 +53,9 @@ public class ComingSoonFragment extends Fragment {
                         ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(
                                 TrailerData.KEY_TRAILER_DATA);
                         RVAdapter adapter = new RVAdapter(trailers, imageLoader);
-                        rv.setAdapter(adapter);
+                        mRecycleView.setAdapter(adapter);
+                        mRecycleView.setVisibility(View.VISIBLE);
+                        mProgressBar.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -62,13 +66,12 @@ public class ComingSoonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(R.layout.fragment_trailers, container, false);
-
-        rv = (RecyclerView) view.findViewById(R.id.rv);
-        rv.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        rv.setLayoutManager(llm);
-
+        mRecycleView = (RecyclerView) view.findViewById(R.id.rv);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        mRecycleView.setHasFixedSize(true);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecycleView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
         return view;
     }
 
