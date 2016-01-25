@@ -13,9 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +22,11 @@ import vandy.mooc.model.aidl.TrailerData;
 public class ComingSoonFragment extends Fragment {
     public static final String ACTION_DISPLAY = "vandy.mooc.view.ComingSoonFragment:ACTION_DISPLAY";
     public static final String ACTION_SYNC = "vandy.mooc.view.ComingSoonFragment:ACTION_SYNC";
-    private final ImageLoader imageLoader;
     private BroadcastReceiver mReceiver;
     private RecyclerView mRecycleView;
     private ProgressBar mProgressBar;
 
     public ComingSoonFragment() {
-        imageLoader = ImageLoader.getInstance();
     }
 
     public static Intent makeIntent(List<TrailerData> results) {
@@ -44,7 +39,6 @@ public class ComingSoonFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        imageLoader.init(ImageLoaderConfiguration.createDefault(getContext()));
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -52,7 +46,7 @@ public class ComingSoonFragment extends Fragment {
                     case ACTION_DISPLAY:
                         ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(
                                 TrailerData.KEY_TRAILER_DATA);
-                        RVAdapter adapter = new RVAdapter(trailers, imageLoader);
+                        RVAdapter adapter = new RVAdapter(trailers, context);
                         mRecycleView.setAdapter(adapter);
                         mRecycleView.setVisibility(View.VISIBLE);
                         mProgressBar.setVisibility(View.GONE);

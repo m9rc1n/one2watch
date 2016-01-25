@@ -1,5 +1,6 @@
 package vandy.mooc.view;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,7 @@ import android.widget.VideoView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
@@ -23,19 +25,19 @@ import vandy.mooc.model.aidl.TrailerData;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
-    private final ImageLoader imageLoader;
-    ArrayList<TrailerData> trailers;
+    private final ImageLoader mImageLoader;
+    ArrayList<TrailerData> mTrailers;
 
-    public RVAdapter(ArrayList<TrailerData> trailers, ImageLoader imageLoader) {
-        this.trailers = trailers;
-        this.imageLoader = imageLoader;
-
+    public RVAdapter(ArrayList<TrailerData> trailers, Context context) {
+        mTrailers = trailers;
+        mImageLoader = ImageLoader.getInstance();
+        mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
     }
 
     @Override
     public void onBindViewHolder(final PersonViewHolder personViewHolder, int i) {
-        final TrailerData data = trailers.get(i);
-        imageLoader.displayImage(data.getThumb().getSmall(),
+        final TrailerData data = mTrailers.get(i);
+        mImageLoader.displayImage(data.getThumb().getSmall(),
                 personViewHolder.personPhoto,
                 DisplayImageOptions.createSimple(),
                 new ImageLoadingListener() {
@@ -79,7 +81,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public int getItemCount() {
-        return trailers.size();
+        return mTrailers.size();
     }
 
     @Override
