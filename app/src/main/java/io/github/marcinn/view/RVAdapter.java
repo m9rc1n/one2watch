@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
@@ -33,7 +34,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     private final ImageLoader mImageLoader;
     private final Resources mRes;
     private final Context mContext;
-    ArrayList<TrailerData> mTrailers;
+    private final ArrayList<TrailerData> mTrailers;
 
     public RVAdapter(ArrayList<TrailerData> trailers, Context context) {
         mTrailers = trailers;
@@ -49,7 +50,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final PersonViewHolder personViewHolder, int i) {
+    public void onBindViewHolder(final PersonViewHolder vh, int i) {
         final TrailerData data = mTrailers.get(i);
         mImageLoader.loadImage(data.getThumb().getSmall(),
                 DisplayImageOptions.createSimple(),
@@ -64,40 +65,40 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        //                        personViewHolder.video.setBackground(new BitmapDrawable(mRes, loadedImage));
+                        vh.video.setBackground(new BitmapDrawable(mRes, loadedImage));
                     }
 
                     @Override
                     public void onLoadingCancelled(String imageUri, View view) {
                     }
                 });
-        personViewHolder.personName.setText(data.getMovie().getTitle());
-        personViewHolder.personAge.setText(data.getMovie().getPlot());
-        personViewHolder.video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        vh.title.setText(data.getMovie().getTitle());
+        vh.desc.setText(data.getMovie().getPlot());
+        vh.video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                personViewHolder.play.setVisibility(View.VISIBLE);
+                vh.play.setVisibility(View.VISIBLE);
             }
         });
-        personViewHolder.video.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+        vh.video.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
-                personViewHolder.play.setVisibility(View.VISIBLE);
+                vh.play.setVisibility(View.VISIBLE);
                 return false;
             }
         });
-        personViewHolder.play.setOnClickListener(new View.OnClickListener() {
+        vh.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                personViewHolder.video.setVideoURI(Uri.parse(data.getEmbed().getHtml5().get360p()));
+                vh.video.setVideoURI(Uri.parse(data.getEmbed().getHtml5().get360p()));
                 MediaController controller = new MediaController(mContext);
-                controller.setAnchorView(personViewHolder.video);
-                personViewHolder.video.setMediaController(controller);
-                personViewHolder.video.requestFocus();
+                controller.setAnchorView(vh.video);
+                vh.video.setMediaController(controller);
+                vh.video.requestFocus();
                 v.setVisibility(View.GONE);
             }
         });
-        personViewHolder.google.setOnClickListener(new View.OnClickListener() {
+        vh.google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.ACTION_RUN_BROWSER);
@@ -126,20 +127,20 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
         VideoView video;
-        CardView cv;
-        TextView personName;
-        TextView personAge;
+        CardView card;
+        TextView title;
+        TextView desc;
         ImageView play;
         ImageView google;
 
         PersonViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.cv);
-            personName = (TextView) itemView.findViewById(R.id.person_name);
-            personAge = (TextView) itemView.findViewById(R.id.person_age);
-            video = (VideoView) itemView.findViewById(R.id.videoView);
-            play = (ImageView) itemView.findViewById(R.id.imageView);
-            google = (ImageView) itemView.findViewById(R.id.imageView2);
+            card = (CardView) itemView.findViewById(R.id.card);
+            title = (TextView) itemView.findViewById(R.id.title);
+            desc = (TextView) itemView.findViewById(R.id.desc);
+            video = (VideoView) itemView.findViewById(R.id.video);
+            play = (ImageView) itemView.findViewById(R.id.play);
+            google = (ImageView) itemView.findViewById(R.id.google);
             video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
