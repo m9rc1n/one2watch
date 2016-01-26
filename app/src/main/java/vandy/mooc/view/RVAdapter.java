@@ -1,6 +1,7 @@
 package vandy.mooc.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -23,11 +24,13 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import java.util.ArrayList;
 
+import vandy.mooc.MainActivity;
 import vandy.mooc.R;
 import vandy.mooc.model.aidl.TrailerData;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
+    public static final String GOOGLE_SEARCH = "https://www.google.no/search?q=";
     private final ImageLoader mImageLoader;
     private final Resources mRes;
     private final Context mContext;
@@ -95,6 +98,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
                 v.setVisibility(View.GONE);
             }
         });
+        personViewHolder.google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.ACTION_RUN_BROWSER);
+                intent.putExtra(MainActivity.EXTRA_URL, GOOGLE_SEARCH + data.getMovie().getTitle());
+                mContext.sendBroadcast(intent);
+            }
+        });
     }
 
     @Override
@@ -120,6 +131,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         TextView personName;
         TextView personAge;
         ImageView play;
+        ImageView google;
 
         PersonViewHolder(View itemView) {
             super(itemView);
@@ -128,6 +140,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             personAge = (TextView) itemView.findViewById(R.id.person_age);
             video = (VideoView) itemView.findViewById(R.id.videoView);
             play = (ImageView) itemView.findViewById(R.id.imageView);
+            google = (ImageView) itemView.findViewById(R.id.imageView2);
             video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {

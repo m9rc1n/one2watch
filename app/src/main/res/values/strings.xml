@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">One 2 Watch</string>
+    <string name="app_name">One2Watch</string>
     <string name="action_search">Search</string>
     <string name="box_office">Box office</string>
     <string name="coming_soon">Coming Soon</string>
     <string name="popular">Popular</string>
     <string name="search">Search</string>
+    <string name="come_back">Come back</string>
 </resources>

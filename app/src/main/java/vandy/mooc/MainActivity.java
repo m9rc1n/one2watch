@@ -1,16 +1,36 @@
 package vandy.mooc;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsCallback;
+import android.support.customtabs.CustomTabsClient;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.customtabs.CustomTabsServiceConnection;
+import android.support.customtabs.CustomTabsSession;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.chromium.customtabsclient.shared.CustomTabsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +48,18 @@ import vandy.mooc.view.SearchFragment;
 public class MainActivity
         extends GenericActivity<MVP.RequiredViewOps, MVP.ProvidedPresenterOps, TrailerPresenter>
         implements MVP.RequiredViewOps {
+
+    public static final String ACTION_RUN_BROWSER = "vandy.mooc.MainActivity:ACTION_RUN_BROWSER";
+    public static final String EXTRA_URL = "vandy.mooc.MainActivity:EXTRA_URL";
+    private static final String TAG = MainActivity.class.getName();
     private Toolbar mToolbar;
     private ViewPager mViewPager;
     private String mQuery;
+    private CustomTabsSession mCustomTabsSession;
+    private CustomTabsClient mClient;
+    private CustomTabsServiceConnection mConnection;
+    private String mPackageNameToBind;
+    private BroadcastReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +72,40 @@ public class MainActivity
         setupViewPager(mViewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        bindCustomTabsService();
+        CustomTabsSession session = getSession();
+        if (mClient != null) {
+            mClient.warmup(0);
+            session.mayLaunchUrl(Uri.parse("www.google.com"), null, null);
+        }
+
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (ACTION_RUN_BROWSER.equals(intent.getAction())) {
+                    //                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    //                v.vibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}, -1);
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
+                    int color = ContextCompat.getColor(context, R.color.colorPrimary);
+                    builder.setToolbarColor(color).setShowTitle(true);
+                    prepareMenuItems(builder);
+                    builder.setStartAnimations(getActivity(),
+                            R.anim.slide_in_right,
+                            R.anim.slide_out_left);
+                    builder.setExitAnimations(getActivity(),
+                            R.anim.slide_in_left,
+                            R.anim.slide_out_right);
+                    builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(),
+                            R.drawable.ic_arrow_back));
+                    CustomTabsIntent customTabsIntent = builder.build();
+                    CustomTabsHelper.addKeepAliveExtra(getActivity(), customTabsIntent.intent);
+                    customTabsIntent.launchUrl(getActivity(),
+                            Uri.parse(intent.getStringExtra(EXTRA_URL)));
+                }
+            }
+        };
+        registerReceiver(mReceiver, new IntentFilter(ACTION_RUN_BROWSER));
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -78,12 +141,6 @@ public class MainActivity
 
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        getPresenter().onDestroy(isChangingConfigurations());
-        super.onDestroy();
     }
 
     public void getTrailerSync(String search) {
@@ -162,6 +219,71 @@ public class MainActivity
         getTrailerAsync(TrailerType.BOX_OFFICE);
         getTrailerAsync(TrailerType.COMING_SOON);
         getTrailerAsync(TrailerType.POPULAR);
+    }
+
+    @Override
+    protected void onDestroy() {
+        getPresenter().onDestroy(isChangingConfigurations());
+        unbindCustomTabsService();
+        super.onDestroy();
+    }
+
+    private CustomTabsSession getSession() {
+        if (mClient == null) {
+            mCustomTabsSession = null;
+        } else if (mCustomTabsSession == null) {
+            mCustomTabsSession = mClient.newSession(new CustomTabsCallback() {
+                @Override
+                public void onNavigationEvent(int navigationEvent, Bundle extras) {
+                    Log.w(TAG, "onNavigationEvent: Code = " + navigationEvent);
+                }
+            });
+        }
+        return mCustomTabsSession;
+    }
+
+    private void bindCustomTabsService() {
+        if (mClient != null) return;
+        if (TextUtils.isEmpty(mPackageNameToBind)) {
+            mPackageNameToBind = CustomTabsHelper.getPackageNameToUse(this);
+            if (mPackageNameToBind == null) return;
+        }
+        mConnection = new CustomTabsServiceConnection() {
+            @Override
+            public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
+                mClient = client;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                mClient = null;
+            }
+        };
+    }
+
+    private void unbindCustomTabsService() {
+        if (mConnection == null) return;
+        if (mClient != null) unbindService(mConnection);
+        mClient = null;
+        mCustomTabsSession = null;
+    }
+
+    private Activity getActivity() {
+        return this;
+    }
+
+    private void prepareMenuItems(CustomTabsIntent.Builder builder) {
+        Intent menuIntent = new Intent();
+        menuIntent.setClass(getApplicationContext(), this.getClass());
+        Bundle menuBundle = ActivityOptions.makeCustomAnimation(this,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right).toBundle();
+        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(),
+                0,
+                menuIntent,
+                0,
+                menuBundle);
+        builder.addMenuItem(getString(R.string.come_back), pi);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
