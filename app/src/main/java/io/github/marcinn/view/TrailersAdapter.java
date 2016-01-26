@@ -28,15 +28,15 @@ import java.util.ArrayList;
 import io.github.marcinn.R;
 import io.github.marcinn.model.aidl.TrailerData;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
+public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerViewHolder> {
 
-    public static final String GOOGLE_SEARCH = "https://www.google.no/search?q=";
+    public static final String GOOGLE_SEARCH = "https://www.google.no/search?q=Movie ";
     private final ImageLoader mImageLoader;
     private final Resources mRes;
     private final Context mContext;
     private final ArrayList<TrailerData> mTrailers;
 
-    public RVAdapter(ArrayList<TrailerData> trailers, Context context) {
+    public TrailersAdapter(ArrayList<TrailerData> trailers, Context context) {
         mTrailers = trailers;
         mImageLoader = ImageLoader.getInstance();
         mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
@@ -45,12 +45,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     }
 
     @Override
-    public void onViewDetachedFromWindow(PersonViewHolder holder) {
+    public void onViewDetachedFromWindow(TrailerViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
     }
 
     @Override
-    public void onBindViewHolder(final PersonViewHolder vh, int i) {
+    public void onBindViewHolder(final TrailerViewHolder vh, int i) {
         final TrailerData data = mTrailers.get(i);
         mImageLoader.loadImage(data.getThumb().getSmall(),
                 DisplayImageOptions.createSimple(),
@@ -109,10 +109,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
     }
 
     @Override
-    public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public TrailerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.trailer_card, viewGroup, false);
-        return new PersonViewHolder(v);
+        return new TrailerViewHolder(v);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         super.onAttachedToRecyclerView(recyclerView);
     }
 
-    public static class PersonViewHolder extends RecyclerView.ViewHolder {
+    public static class TrailerViewHolder extends RecyclerView.ViewHolder {
         VideoView video;
         CardView card;
         TextView title;
@@ -133,7 +133,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         ImageView play;
         ImageView google;
 
-        PersonViewHolder(View itemView) {
+        TrailerViewHolder(View itemView) {
             super(itemView);
             card = (CardView) itemView.findViewById(R.id.card);
             title = (TextView) itemView.findViewById(R.id.title);

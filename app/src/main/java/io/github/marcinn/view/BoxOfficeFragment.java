@@ -46,7 +46,7 @@ public class BoxOfficeFragment extends Fragment {
                     case ACTION_DISPLAY:
                         ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(
                                 TrailerData.KEY_TRAILER_DATA);
-                        RVAdapter adapter = new RVAdapter(trailers, context);
+                        TrailersAdapter adapter = new TrailersAdapter(trailers, context);
                         mRecycleView.setAdapter(adapter);
                         mRecycleView.setVisibility(View.VISIBLE);
                         mProgressBar.setVisibility(View.GONE);
