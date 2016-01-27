@@ -30,11 +30,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     }
 
     @Override
-    public void onViewDetachedFromWindow(TrailerViewHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-    }
-
-    @Override
     public void onBindViewHolder(final TrailerViewHolder vh, int i) {
         final TrailerData data = mTrailers.get(i);
         vh.thumbnail.setVisibility(View.VISIBLE);
@@ -49,12 +44,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     @Override
     public TrailerViewHolder onCreateViewHolder(ViewGroup g, int i) {
         View v = LayoutInflater.from(g.getContext()).inflate(R.layout.trailer_card, g, false);
-        return new TrailerViewHolder(v);
-    }
-
-    @Override
-    public void onViewRecycled(TrailerViewHolder holder) {
-        super.onViewRecycled(holder);
+        return new TrailerViewHolder(v, mTrailers);
     }
 
     @Override
@@ -67,7 +57,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         notifyDataSetChanged();
     }
 
-    public class TrailerViewHolder extends RecyclerView.ViewHolder {
+    public static class TrailerViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView thumbnail;
         CardView card;
         TextView title;
@@ -77,7 +67,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         FrameLayout videoContainer;
         VideoView video;
 
-        TrailerViewHolder(View v) {
+        TrailerViewHolder(View v, final ArrayList<TrailerData> trailers) {
             super(v);
             card = (CardView) v.findViewById(R.id.card);
             title = (TextView) v.findViewById(R.id.title);
@@ -91,7 +81,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String url = mTrailers.get(getAdapterPosition())
+                    String url = trailers.get(getAdapterPosition())
                             .getEmbed()
                             .getHtml5()
                             .get360p();
@@ -109,7 +99,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             google.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String title = mTrailers.get(getAdapterPosition()).getMovie().getTitle();
+                    String title = trailers.get(getAdapterPosition()).getMovie().getTitle();
                     Intent intent = new Intent(MainActivity.ACTION_RUN_BROWSER);
                     intent.putExtra(MainActivity.EXTRA_URL, GOOGLE_SEARCH + title);
                     v.getContext().sendBroadcast(intent);
