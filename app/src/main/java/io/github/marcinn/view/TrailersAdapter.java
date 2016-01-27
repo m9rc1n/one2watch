@@ -24,10 +24,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
 
     public static final String GOOGLE_SEARCH = "https://www.google.no/search?q=Movie ";
     private ArrayList<TrailerData> mTrailers;
-    private VideoView mCurrentVideo;
-    private SimpleDraweeView mCurrentThumb;
-    private ImageView mCurrentPlay;
-    private FrameLayout mVideoLayout;
 
     public TrailersAdapter(ArrayList<TrailerData> trailers) {
         mTrailers = trailers;
@@ -41,37 +37,13 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     @Override
     public void onBindViewHolder(final TrailerViewHolder vh, int i) {
         final TrailerData data = mTrailers.get(i);
+        vh.thumbnail.setVisibility(View.VISIBLE);
+        vh.play.setVisibility(View.VISIBLE);
+        vh.video.setVisibility(View.GONE);
+        vh.video.stopPlayback();
         vh.thumbnail.setImageURI(Uri.parse((data.getThumb().getSmall())));
         vh.title.setText(data.getMovie().getTitle());
         vh.desc.setText(data.getMovie().getPlot());
-        vh.play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                vh.play.setVisibility(View.INVISIBLE);
-                vh.thumbnail.setVisibility(View.GONE);
-                if (mCurrentVideo != null) {
-                    mCurrentVideo.stopPlayback();
-                    mCurrentThumb.setVisibility(View.VISIBLE);
-                    mCurrentPlay.setVisibility(View.VISIBLE);
-                }
-                mCurrentVideo = vh.video;
-                mCurrentPlay = vh.play;
-                mCurrentThumb = vh.thumbnail;
-                mCurrentVideo.setVideoURI(Uri.parse(data.getEmbed().getHtml5().get360p()));
-                MediaController controller = new MediaController(v.getContext(), true);
-                controller.setMediaPlayer(mCurrentVideo);
-                mCurrentVideo.setMediaController(controller);
-                mCurrentVideo.start();
-            }
-        });
-        vh.google.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.ACTION_RUN_BROWSER);
-                intent.putExtra(MainActivity.EXTRA_URL, GOOGLE_SEARCH + data.getMovie().getTitle());
-                v.getContext().sendBroadcast(intent);
-            }
-        });
     }
 
     @Override
@@ -95,7 +67,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         notifyDataSetChanged();
     }
 
-    public static class TrailerViewHolder extends RecyclerView.ViewHolder {
+    public class TrailerViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView thumbnail;
         CardView card;
         TextView title;
@@ -115,6 +87,34 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             thumbnail = (SimpleDraweeView) v.findViewById(R.id.thumbnail);
             videoContainer = (FrameLayout) v.findViewById(R.id.videoContainer);
             video = (VideoView) v.findViewById(R.id.video);
+
+            play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String url = mTrailers.get(getAdapterPosition())
+                            .getEmbed()
+                            .getHtml5()
+                            .get360p();
+                    thumbnail.setVisibility(View.GONE);
+                    play.setVisibility(View.GONE);
+                    video.setVisibility(View.VISIBLE);
+                    video.setVideoURI(Uri.parse(url));
+                    MediaController controller = new MediaController(v.getContext(), true);
+                    controller.setMediaPlayer(video);
+                    video.setMediaController(controller);
+                    video.start();
+                }
+            });
+
+            google.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String title = mTrailers.get(getAdapterPosition()).getMovie().getTitle();
+                    Intent intent = new Intent(MainActivity.ACTION_RUN_BROWSER);
+                    intent.putExtra(MainActivity.EXTRA_URL, GOOGLE_SEARCH + title);
+                    v.getContext().sendBroadcast(intent);
+                }
+            });
         }
     }
 
