@@ -1,15 +1,15 @@
 package io.github.marcinn.view;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -35,6 +35,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         vh.thumbnail.setVisibility(View.VISIBLE);
         vh.play.setVisibility(View.VISIBLE);
         vh.video.setVisibility(View.GONE);
+        vh.progress.setVisibility(View.GONE);
         vh.video.stopPlayback();
         vh.thumbnail.setImageURI(Uri.parse((data.getThumb().getSmall())));
         vh.title.setText(data.getMovie().getTitle());
@@ -58,41 +59,48 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     }
 
     public static class TrailerViewHolder extends RecyclerView.ViewHolder {
+        ProgressBar progress;
         SimpleDraweeView thumbnail;
-        CardView card;
         TextView title;
         TextView desc;
         ImageView play;
         ImageView google;
-        FrameLayout videoContainer;
         VideoView video;
 
         TrailerViewHolder(View v, final ArrayList<TrailerData> trailers) {
             super(v);
-            card = (CardView) v.findViewById(R.id.card);
             title = (TextView) v.findViewById(R.id.title);
             desc = (TextView) v.findViewById(R.id.desc);
             play = (ImageView) v.findViewById(R.id.play);
             google = (ImageView) v.findViewById(R.id.google);
             thumbnail = (SimpleDraweeView) v.findViewById(R.id.thumbnail);
-            videoContainer = (FrameLayout) v.findViewById(R.id.videoContainer);
             video = (VideoView) v.findViewById(R.id.video);
+            progress = (ProgressBar) v.findViewById(R.id.progress);
 
             play.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    String url = trailers.get(getAdapterPosition())
-                            .getEmbed()
-                            .getHtml5()
-                            .get360p();
-                    thumbnail.setVisibility(View.GONE);
+                public void onClick(final View v) {
+                    String url = trailers.get(getAdapterPosition()).getEmbed().getHtml5().get360p();
                     play.setVisibility(View.GONE);
+                    thumbnail.setVisibility(View.GONE);
                     video.setVisibility(View.VISIBLE);
+                    progress.setVisibility(View.VISIBLE);
                     video.setVideoURI(Uri.parse(url));
                     MediaController controller = new MediaController(v.getContext(), true);
                     controller.setMediaPlayer(video);
+                    controller.setAnchorView(video);
                     video.setMediaController(controller);
+                    video.requestFocus();
+                }
+            });
+
+            video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    video.bringToFront();
                     video.start();
+                    video.setVisibility(View.VISIBLE);
+                    progress.setVisibility(View.GONE);
                 }
             });
 

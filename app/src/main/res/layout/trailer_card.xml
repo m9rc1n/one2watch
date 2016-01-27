@@ -72,12 +72,6 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp">
 
-                <VideoView
-                    android:id="@+id/video"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"/>
-
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/thumbnail"
                     android:layout_width="match_parent"
@@ -90,7 +84,7 @@
                     fresco:failureImageScaleType="centerInside"
                     fresco:placeholderImageScaleType="fitCenter"
                     fresco:progressBarAutoRotateInterval="1000"
-                    fresco:progressBarImage="@drawable/rotate_ouroboros"
+                    fresco:progressBarImage="@anim/rotate_ouroboros"
                     fresco:progressBarImageScaleType="centerInside"
                     fresco:retryImageScaleType="centerCrop"
                     fresco:roundAsCircle="false"
@@ -101,13 +95,31 @@
                     fresco:roundedCornerRadius="2dp"
                     fresco:roundingBorderWidth="4dp"/>
 
+                <VideoView
+                    android:id="@+id/video"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"/>
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center"
+                    android:indeterminateBehavior="repeat"
+                    android:indeterminateDrawable="@anim/rotate_ouroboros"
+                    android:indeterminateDuration="2000"
+                    android:interpolator="@android:interpolator/overshoot"
+                    android:visibility="gone"/>
+
                 <ImageView
                     android:id="@+id/play"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:alpha="0.5"
-                    android:contentDescription="@string/Play"
+                    android:contentDescription="@string/play"
                     android:src="@drawable/ic_play_circle_outline_white_48dp"/>
 
             </FrameLayout>

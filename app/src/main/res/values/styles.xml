@@ -13,7 +13,7 @@
     </style>
 
     <style name="ProgressRotateOuroboros" parent="@android:style/Widget.ProgressBar">
-        <item name="android:indeterminateDrawable">@drawable/rotate_ouroboros</item>
+        <item name="android:indeterminateDrawable">@anim/rotate_ouroboros</item>
     </style>
 
 </resources>
