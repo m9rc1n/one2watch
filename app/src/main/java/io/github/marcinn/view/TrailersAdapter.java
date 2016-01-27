@@ -23,8 +23,10 @@ import io.github.marcinn.model.aidl.TrailerData;
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerViewHolder> {
 
     public static final String GOOGLE_SEARCH = "https://www.google.no/search?q=Movie ";
-    private final ArrayList<TrailerData> mTrailers;
-    private VideoView mVideoView;
+    private ArrayList<TrailerData> mTrailers;
+    private VideoView mCurrentVideo;
+    private SimpleDraweeView mCurrentThumb;
+    private ImageView mCurrentPlay;
     private FrameLayout mVideoLayout;
 
     public TrailersAdapter(ArrayList<TrailerData> trailers) {
@@ -47,16 +49,19 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             public void onClick(View v) {
                 vh.play.setVisibility(View.INVISIBLE);
                 vh.thumbnail.setVisibility(View.GONE);
-                if (mVideoView != null) {
-                    mVideoView.pause();
+                if (mCurrentVideo != null) {
+                    mCurrentVideo.stopPlayback();
+                    mCurrentThumb.setVisibility(View.VISIBLE);
+                    mCurrentPlay.setVisibility(View.VISIBLE);
                 }
-                mVideoView = vh.video;
-                mVideoView.setVideoURI(Uri.parse(data.getEmbed().getHtml5().get360p()));
+                mCurrentVideo = vh.video;
+                mCurrentPlay = vh.play;
+                mCurrentThumb = vh.thumbnail;
+                mCurrentVideo.setVideoURI(Uri.parse(data.getEmbed().getHtml5().get360p()));
                 MediaController controller = new MediaController(v.getContext(), true);
-                controller.setMediaPlayer(mVideoView);
-                controller.setAnchorView(mVideoView);
-                mVideoView.setMediaController(controller);
-                mVideoView.start();
+                controller.setMediaPlayer(mCurrentVideo);
+                mCurrentVideo.setMediaController(controller);
+                mCurrentVideo.start();
             }
         });
         vh.google.setOnClickListener(new View.OnClickListener() {
@@ -80,10 +85,14 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         super.onViewRecycled(holder);
     }
 
-
     @Override
     public int getItemCount() {
         return mTrailers.size();
+    }
+
+    public void setTrailers(ArrayList<TrailerData> trailers) {
+        this.mTrailers = trailers;
+        notifyDataSetChanged();
     }
 
     public static class TrailerViewHolder extends RecyclerView.ViewHolder {

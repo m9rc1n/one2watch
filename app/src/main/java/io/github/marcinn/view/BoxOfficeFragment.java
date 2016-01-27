@@ -25,6 +25,7 @@ public class BoxOfficeFragment extends Fragment {
     private RecyclerView mRecycleView;
     private BroadcastReceiver mReceiver;
     private ProgressBar mProgressBar;
+    private TrailersAdapter mAdapter;
 
     public BoxOfficeFragment() {
     }
@@ -46,8 +47,7 @@ public class BoxOfficeFragment extends Fragment {
                     case ACTION_DISPLAY:
                         ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(
                                 TrailerData.KEY_TRAILER_DATA);
-                        TrailersAdapter adapter = new TrailersAdapter(trailers);
-                        mRecycleView.setAdapter(adapter);
+                        mAdapter.setTrailers(trailers);
                         mRecycleView.setVisibility(View.VISIBLE);
                         mProgressBar.setVisibility(View.GONE);
                         break;
@@ -60,11 +60,13 @@ public class BoxOfficeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(R.layout.fragment_trailers, container, false);
+        mAdapter = new TrailersAdapter(new ArrayList<TrailerData>());
         mRecycleView = (RecyclerView) view.findViewById(R.id.rv);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         mRecycleView.setHasFixedSize(true);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecycleView.setVisibility(View.GONE);
+        mRecycleView.setAdapter(mAdapter);
         mProgressBar.setVisibility(View.VISIBLE);
         return view;
     }
