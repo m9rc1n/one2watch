@@ -7,8 +7,10 @@
     <string name="popular">Popular</string>
     <string name="search">Search</string>
     <string name="come_back">Come back</string>
-    <string name="play"/>
+    <string name="play">Play</string>
     <string name="google">Google</string>
     <string name="loading_data">Loading data…</string>
     <string name="type_text_to_search">Type text in toolbar to search</string>
+    <string name="quickly_share_movies_with_friends">Quickly share movies with friends</string>
+    <string name="quickly_share_movies">Quickly share movies</string>
 </resources>

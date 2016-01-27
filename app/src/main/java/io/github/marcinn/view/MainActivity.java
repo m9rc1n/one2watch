@@ -50,6 +50,7 @@ public class MainActivity
 
     public static final String ACTION_RUN_BROWSER = "io.github.marcinn.view.MainActivity:ACTION_RUN_BROWSER";
     public static final String EXTRA_URL = "io.github.marcinn.view.MainActivity:EXTRA_URL";
+    public static final String HOST_GOOGLE = "www.google.com";
     private static final String TAG = MainActivity.class.getName();
     private Toolbar mToolbar;
     private ViewPager mViewPager;
@@ -66,25 +67,26 @@ public class MainActivity
         super.onCreate(TrailerPresenter.class, this);
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setLogo(R.drawable.ic_logo);
+        mToolbar.setSubtitle(R.string.quickly_share_movies);
         setSupportActionBar(mToolbar);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
         bindCustomTabsService();
         CustomTabsSession session = getSession();
         if (mClient != null) {
             mClient.warmup(0);
-            session.mayLaunchUrl(Uri.parse("www.google.com"), null, null);
+            session.mayLaunchUrl(Uri.parse(HOST_GOOGLE), null, null);
         }
 
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (ACTION_RUN_BROWSER.equals(intent.getAction())) {
-                    //                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    //                v.vibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}, -1);
+                    //                                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    //                                    v.vibrate(new long[]{0, 500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500}, -1);
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
                     int color = ContextCompat.getColor(context, R.color.colorPrimary);
                     builder.setToolbarColor(color).setShowTitle(true);
