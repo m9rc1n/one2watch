@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +23,11 @@ import io.github.marcinn.model.aidl.TrailerData;
 public class PopularFragment extends Fragment {
     public static final String ACTION_DISPLAY = "io.github.marcinn.view.PopularFragment:ACTION_DISPLAY";
     public static final String ACTION_SYNC = "io.github.marcinn.view.PopularFragment:ACTION_SYNC";
-    private BroadcastReceiver mReceiver;
     private RecyclerView mRecycleView;
-    private ProgressBar mProgressBar;
     private TrailersAdapter mAdapter;
+    private BroadcastReceiver mReceiver;
+    private ProgressBar mProgressBar;
+    private TextView mProgressText;
 
     public PopularFragment() {
     }
@@ -45,11 +47,8 @@ public class PopularFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
                     case ACTION_DISPLAY:
-                        ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(
-                                TrailerData.KEY_TRAILER_DATA);
-                        mAdapter.setTrailers(trailers);
-                        mRecycleView.setVisibility(View.VISIBLE);
-                        mProgressBar.setVisibility(View.GONE);
+                        updateAdapter(intent);
+                        showTrailersView();
                         break;
                 }
             }
@@ -60,15 +59,40 @@ public class PopularFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(R.layout.fragment_trailers, container, false);
-        mAdapter = new TrailersAdapter(new ArrayList<TrailerData>());
-        mRecycleView = (RecyclerView) view.findViewById(R.id.rv);
+        findViews(view);
+        prepareRecycleView(view);
+        showLoadingView();
+        return view;
+    }
+
+    private void updateAdapter(Intent intent) {
+        ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(TrailerData.KEY_TRAILER_DATA);
+        mAdapter.setTrailers(trailers);
+    }
+
+    private void showTrailersView() {
+        mRecycleView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        mProgressText.setVisibility(View.GONE);
+    }
+
+    private void findViews(View view) {
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        mProgressText = (TextView) view.findViewById(R.id.progressText);
+    }
+
+    private void prepareRecycleView(View view) {
+        mRecycleView = (RecyclerView) view.findViewById(R.id.rv);
+        mAdapter = new TrailersAdapter(new ArrayList<TrailerData>());
+        mRecycleView.setAdapter(mAdapter);
         mRecycleView.setHasFixedSize(true);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void showLoadingView() {
         mRecycleView.setVisibility(View.GONE);
-        mRecycleView.setAdapter(mAdapter);
         mProgressBar.setVisibility(View.VISIBLE);
-        return view;
+        mProgressText.setVisibility(View.VISIBLE);
     }
 
     @Override
