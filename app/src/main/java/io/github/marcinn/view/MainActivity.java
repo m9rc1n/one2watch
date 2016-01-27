@@ -1,6 +1,5 @@
 package io.github.marcinn.view;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -29,6 +28,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import org.chromium.customtabsclient.shared.CustomTabsHelper;
 
@@ -88,22 +89,23 @@ public class MainActivity
                     int color = ContextCompat.getColor(context, R.color.colorPrimary);
                     builder.setToolbarColor(color).setShowTitle(true);
                     prepareMenuItems(builder);
-                    builder.setStartAnimations(getActivity(),
+                    builder.setStartAnimations(getBaseContext(),
                             R.anim.slide_in_right,
                             R.anim.slide_out_left);
-                    builder.setExitAnimations(getActivity(),
+                    builder.setExitAnimations(getBaseContext(),
                             R.anim.slide_in_left,
                             R.anim.slide_out_right);
                     builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(),
                             R.drawable.ic_arrow_back));
                     CustomTabsIntent customTabsIntent = builder.build();
-                    CustomTabsHelper.addKeepAliveExtra(getActivity(), customTabsIntent.intent);
-                    customTabsIntent.launchUrl(getActivity(),
+                    CustomTabsHelper.addKeepAliveExtra(getBaseContext(), customTabsIntent.intent);
+                    customTabsIntent.launchUrl(MainActivity.this,
                             Uri.parse(intent.getStringExtra(EXTRA_URL)));
                 }
             }
         };
         registerReceiver(mReceiver, new IntentFilter(ACTION_RUN_BROWSER));
+        Fresco.initialize(getApplicationContext());
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -223,6 +225,7 @@ public class MainActivity
     protected void onDestroy() {
         getPresenter().onDestroy(isChangingConfigurations());
         unbindCustomTabsService();
+        unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 
@@ -266,21 +269,13 @@ public class MainActivity
         mCustomTabsSession = null;
     }
 
-    private Activity getActivity() {
-        return this;
-    }
-
     private void prepareMenuItems(CustomTabsIntent.Builder builder) {
-        Intent menuIntent = new Intent();
-        menuIntent.setClass(getApplicationContext(), this.getClass());
-        Bundle menuBundle = ActivityOptions.makeCustomAnimation(this,
+        Intent intent = new Intent();
+        intent.setClass(getApplicationContext(), this.getClass());
+        Bundle bundle = ActivityOptions.makeCustomAnimation(this,
                 R.anim.slide_in_left,
                 R.anim.slide_out_right).toBundle();
-        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(),
-                0,
-                menuIntent,
-                0,
-                menuBundle);
+        PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0, bundle);
         builder.addMenuItem(getString(R.string.come_back), pi);
     }
 

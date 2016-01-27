@@ -46,7 +46,7 @@ public class ComingSoonFragment extends Fragment {
                     case ACTION_DISPLAY:
                         ArrayList<TrailerData> trailers = intent.getParcelableArrayListExtra(
                                 TrailerData.KEY_TRAILER_DATA);
-                        TrailersAdapter adapter = new TrailersAdapter(trailers, context);
+                        TrailersAdapter adapter = new TrailersAdapter(trailers);
                         mRecycleView.setAdapter(adapter);
                         mRecycleView.setVisibility(View.VISIBLE);
                         mProgressBar.setVisibility(View.GONE);

@@ -7,4 +7,6 @@
     <string name="popular">Popular</string>
     <string name="search">Search</string>
     <string name="come_back">Come back</string>
+    <string name="Play"/>
+    <string name="google">Google</string>
 </resources>

@@ -1,27 +1,19 @@
 package io.github.marcinn.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
@@ -31,17 +23,12 @@ import io.github.marcinn.model.aidl.TrailerData;
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailerViewHolder> {
 
     public static final String GOOGLE_SEARCH = "https://www.google.no/search?q=Movie ";
-    private final ImageLoader mImageLoader;
-    private final Resources mRes;
-    private final Context mContext;
     private final ArrayList<TrailerData> mTrailers;
+    private VideoView mVideoView;
+    private FrameLayout mVideoLayout;
 
-    public TrailersAdapter(ArrayList<TrailerData> trailers, Context context) {
+    public TrailersAdapter(ArrayList<TrailerData> trailers) {
         mTrailers = trailers;
-        mImageLoader = ImageLoader.getInstance();
-        mImageLoader.init(ImageLoaderConfiguration.createDefault(context));
-        mRes = context.getResources();
-        mContext = context;
     }
 
     @Override
@@ -52,50 +39,24 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     @Override
     public void onBindViewHolder(final TrailerViewHolder vh, int i) {
         final TrailerData data = mTrailers.get(i);
-        mImageLoader.loadImage(data.getThumb().getSmall(),
-                DisplayImageOptions.createSimple(),
-                new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        vh.video.setBackground(new BitmapDrawable(mRes, loadedImage));
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-                    }
-                });
+        vh.thumbnail.setImageURI(Uri.parse((data.getThumb().getSmall())));
         vh.title.setText(data.getMovie().getTitle());
         vh.desc.setText(data.getMovie().getPlot());
-        vh.video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                vh.play.setVisibility(View.VISIBLE);
-            }
-        });
-        vh.video.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mp, int what, int extra) {
-                vh.play.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
         vh.play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vh.video.setVideoURI(Uri.parse(data.getEmbed().getHtml5().get360p()));
-                MediaController controller = new MediaController(mContext);
-                controller.setAnchorView(vh.video);
-                vh.video.setMediaController(controller);
-                vh.video.requestFocus();
-                v.setVisibility(View.GONE);
+                vh.play.setVisibility(View.INVISIBLE);
+                vh.thumbnail.setVisibility(View.GONE);
+                if (mVideoView != null) {
+                    mVideoView.pause();
+                }
+                mVideoView = vh.video;
+                mVideoView.setVideoURI(Uri.parse(data.getEmbed().getHtml5().get360p()));
+                MediaController controller = new MediaController(v.getContext(), true);
+                controller.setMediaPlayer(mVideoView);
+                controller.setAnchorView(mVideoView);
+                mVideoView.setMediaController(controller);
+                mVideoView.start();
             }
         });
         vh.google.setOnClickListener(new View.OnClickListener() {
@@ -103,50 +64,48 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.ACTION_RUN_BROWSER);
                 intent.putExtra(MainActivity.EXTRA_URL, GOOGLE_SEARCH + data.getMovie().getTitle());
-                mContext.sendBroadcast(intent);
+                v.getContext().sendBroadcast(intent);
             }
         });
     }
 
     @Override
-    public TrailerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.trailer_card, viewGroup, false);
+    public TrailerViewHolder onCreateViewHolder(ViewGroup g, int i) {
+        View v = LayoutInflater.from(g.getContext()).inflate(R.layout.trailer_card, g, false);
         return new TrailerViewHolder(v);
     }
+
+    @Override
+    public void onViewRecycled(TrailerViewHolder holder) {
+        super.onViewRecycled(holder);
+    }
+
 
     @Override
     public int getItemCount() {
         return mTrailers.size();
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
     public static class TrailerViewHolder extends RecyclerView.ViewHolder {
-        VideoView video;
+        SimpleDraweeView thumbnail;
         CardView card;
         TextView title;
         TextView desc;
         ImageView play;
         ImageView google;
+        FrameLayout videoContainer;
+        VideoView video;
 
-        TrailerViewHolder(View itemView) {
-            super(itemView);
-            card = (CardView) itemView.findViewById(R.id.card);
-            title = (TextView) itemView.findViewById(R.id.title);
-            desc = (TextView) itemView.findViewById(R.id.desc);
-            video = (VideoView) itemView.findViewById(R.id.video);
-            play = (ImageView) itemView.findViewById(R.id.play);
-            google = (ImageView) itemView.findViewById(R.id.google);
-            video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    video.start();
-                }
-            });
+        TrailerViewHolder(View v) {
+            super(v);
+            card = (CardView) v.findViewById(R.id.card);
+            title = (TextView) v.findViewById(R.id.title);
+            desc = (TextView) v.findViewById(R.id.desc);
+            play = (ImageView) v.findViewById(R.id.play);
+            google = (ImageView) v.findViewById(R.id.google);
+            thumbnail = (SimpleDraweeView) v.findViewById(R.id.thumbnail);
+            videoContainer = (FrameLayout) v.findViewById(R.id.videoContainer);
+            video = (VideoView) v.findViewById(R.id.video);
         }
     }
 

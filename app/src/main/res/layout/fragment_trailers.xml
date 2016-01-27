@@ -17,7 +17,7 @@
         android:layout_centerVertical="true"
         android:indeterminateBehavior="repeat"
         android:indeterminateDrawable="@drawable/rotate_ouroboros"
-        android:indeterminateDuration="3500"
+        android:indeterminateDuration="3000"
         android:interpolator="@android:interpolator/overshoot"/>
 
 </RelativeLayout>
