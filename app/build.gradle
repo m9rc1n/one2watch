@@ -19,6 +19,11 @@ android {
 }
 
 dependencies {
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile 'com.android.support:support-annotations:23.1.1'
+
+    testCompile 'junit:junit:4.12'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':shared')
     compile 'com.android.support:appcompat-v7:23.1.1'
