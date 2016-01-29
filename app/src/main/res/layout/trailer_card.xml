@@ -38,7 +38,7 @@
                 android:layout_below="@+id/title"
                 android:layout_marginTop="4dp"
                 android:layout_toStartOf="@+id/google"
-                android:minHeight="48dp"
+                android:minHeight="96dp"
                 android:paddingEnd="4dp"
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp"
@@ -123,6 +123,20 @@
                     android:src="@drawable/ic_play_circle_outline_white_48dp"/>
 
             </FrameLayout>
+
+            <ImageView
+                android:id="@+id/fb_send_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignBottom="@+id/desc"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/messenger_send_button_text"
+                android:paddingEnd="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:src="@drawable/messenger_bubble_small_blue"/>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

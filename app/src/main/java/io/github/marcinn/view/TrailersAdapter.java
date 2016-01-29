@@ -59,6 +59,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     }
 
     public static class TrailerViewHolder extends RecyclerView.ViewHolder {
+        ImageView sendButton;
         ProgressBar progress;
         SimpleDraweeView thumbnail;
         TextView title;
@@ -76,6 +77,8 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             thumbnail = (SimpleDraweeView) v.findViewById(R.id.thumbnail);
             video = (VideoView) v.findViewById(R.id.video);
             progress = (ProgressBar) v.findViewById(R.id.progress);
+            sendButton = (ImageView) v.findViewById(R.id.fb_send_button);
+
 
             play.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -110,6 +113,16 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
                     String title = trailers.get(getAdapterPosition()).getMovie().getTitle();
                     Intent intent = new Intent(MainActivity.ACTION_RUN_BROWSER);
                     intent.putExtra(MainActivity.EXTRA_URL, GOOGLE_SEARCH + title);
+                    v.getContext().sendBroadcast(intent);
+                }
+            });
+
+            sendButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String url = trailers.get(getAdapterPosition()).getEmbed().getHtml5().get360p();
+                    Intent intent = new Intent(MainActivity.ACTION_SEND_TO_MESSENGER);
+                    intent.putExtra(MainActivity.EXTRA_URL, url);
                     v.getContext().sendBroadcast(intent);
                 }
             });

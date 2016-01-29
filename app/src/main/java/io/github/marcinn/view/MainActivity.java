@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
@@ -29,10 +30,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.messenger.MessengerThreadParams;
+import com.facebook.messenger.MessengerUtils;
+import com.facebook.messenger.ShareToMessengerParams;
 
 import org.chromium.customtabsclient.shared.CustomTabsHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +56,10 @@ public class MainActivity
         implements MVP.RequiredViewOps {
 
     public static final String ACTION_RUN_BROWSER = "io.github.marcinn.view.MainActivity:ACTION_RUN_BROWSER";
+    public static final String ACTION_SEND_TO_MESSENGER = "io.github.marcinn.view.MainActivity:ACTION_SEND_TO_MESSENGER";
     public static final String EXTRA_URL = "io.github.marcinn.view.MainActivity:EXTRA_URL";
     public static final String HOST_GOOGLE = "www.google.com";
+    public static final int SHARE_TO_MESSENGER_REQUEST_CODE = 1;
     private static final String TAG = MainActivity.class.getName();
     private Toolbar mToolbar;
     private ViewPager mViewPager;
@@ -60,11 +69,16 @@ public class MainActivity
     private CustomTabsServiceConnection mConnection;
     private String mPackageNameToBind;
     private BroadcastReceiver mReceiver;
+    private boolean mPicking;
+    private MessengerThreadParams mThreadParams;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.onCreate(TrailerPresenter.class, this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        Fresco.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setLogo(R.drawable.ic_logo);
@@ -103,11 +117,53 @@ public class MainActivity
                     CustomTabsHelper.addKeepAliveExtra(getBaseContext(), customTabsIntent.intent);
                     customTabsIntent.launchUrl(MainActivity.this,
                             Uri.parse(intent.getStringExtra(EXTRA_URL)));
+                } else if (ACTION_SEND_TO_MESSENGER.equals(intent.getAction())) {
+                    //                    Uri uri = Uri.parse(intent.getStringExtra(EXTRA_URL));
+                    Uri uri = Uri.parse(intent.getStringExtra(EXTRA_URL));
+                    File file = new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES),
+                            "a.mp4");
+                    ShareToMessengerParams shareToMessengerParams = ShareToMessengerParams.newBuilder(
+                            Uri.fromFile(file),
+                            "video/mp4")
+                            .setExternalUri(uri)
+                            .setMetaData("{ \"image\" : \"trailers\" }")
+                            .build();
+
+                    if (mPicking) {
+                        MessengerUtils.finishShareToMessenger(MainActivity.this,
+                                shareToMessengerParams);
+                    } else {
+                        MessengerUtils.shareToMessenger(MainActivity.this,
+                                SHARE_TO_MESSENGER_REQUEST_CODE,
+                                shareToMessengerParams);
+                    }
                 }
             }
         };
-        registerReceiver(mReceiver, new IntentFilter(ACTION_RUN_BROWSER));
-        Fresco.initialize(getApplicationContext());
+        IntentFilter intentFilter = new IntentFilter(ACTION_RUN_BROWSER);
+        intentFilter.addAction(ACTION_SEND_TO_MESSENGER);
+        registerReceiver(mReceiver, intentFilter);
+        pickMessengerIntent();
+    }
+
+    private void pickMessengerIntent() {
+        Intent intent = getIntent();
+        if (Intent.ACTION_PICK.equals(intent.getAction())) {
+            mPicking = true;
+            mThreadParams = MessengerUtils.getMessengerThreadParamsForIntent(intent);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
     }
 
     private void setupViewPager(ViewPager viewPager) {
