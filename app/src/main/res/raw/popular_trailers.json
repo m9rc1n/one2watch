@@ -1,0 +1,412 @@
+[
+  {
+    "id": 3974,
+    "title": "Trailer",
+    "imdb_id": "1646971",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 118,
+    "thumb": {
+      "small": "https:\/\/cdn2.themovieclips.com\/images\/1646971\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn1.themovieclips.com\/images\/1646971\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=3974",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/3974' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1646971\/trailer\/howtotrainyourdragon.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1646971\/trailer\/howtotrainyourdragon.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1646971\/trailer\/howtotrainyourdragon.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1646971\/trailer\/howtotrainyourdragon.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-how-to-train-your-dragon-2",
+    "movie": {
+      "id": 10944,
+      "title": "How to Train Your Dragon 2",
+      "plot": "When Hiccup and Toothless discover an ice cave that is home to hundreds of new wild dragons and the mysterious Dragon Rider, the two friends find themselves at the center of a battle to protect the peace.",
+      "imdb_id": "1646971",
+      "tmdb_id": 82702,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG",
+      "imdb_rating": "7.9",
+      "genre": "Fantasy",
+      "posters": {
+        "id": 3746,
+        "imdb_id": "1646971",
+        "full_size": "https:\/\/cdn2.themovieclips.com\/posters\/1646971\/poster_1.jpg",
+        "thumb": "https:\/\/cdn4.themovieclips.com\/posters\/1646971\/poster_1_thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4296,
+    "title": "Trailer",
+    "imdb_id": "2004420",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 101,
+    "thumb": {
+      "small": "https:\/\/cdn1.themovieclips.com\/images\/2004420\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn2.themovieclips.com\/images\/2004420\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4296",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4296' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/2004420\/trailer\/neighbors.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/2004420\/trailer\/neighbors.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/2004420\/trailer\/neighbors.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/2004420\/trailer\/neighbors.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-neighbors",
+    "movie": {
+      "id": 11230,
+      "title": "Neighbors",
+      "plot": "After they are forced to live next to a fraternity house, a couple with a newborn baby do whatever they can to take them down.",
+      "imdb_id": "2004420",
+      "tmdb_id": 195589,
+      "type": "feature",
+      "year": 2014,
+      "rating": "R",
+      "imdb_rating": "6.4",
+      "genre": "Comedy",
+      "posters": {
+        "id": 3788,
+        "imdb_id": "2004420",
+        "full_size": "https:\/\/cdn3.themovieclips.com\/posters\/2004420\/poster_1.jpg",
+        "thumb": "https:\/\/cdn0.themovieclips.com\/posters\/2004420\/poster_1_thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4299,
+    "title": "Trailer",
+    "imdb_id": "1843866",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 152,
+    "thumb": {
+      "small": "https:\/\/cdn0.themovieclips.com\/images\/1843866\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn2.themovieclips.com\/images\/1843866\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4299",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4299' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1843866\/trailer\/captainamericathewintersoldier.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1843866\/trailer\/captainamericathewintersoldier.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1843866\/trailer\/captainamericathewintersoldier.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1843866\/trailer\/captainamericathewintersoldier.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-captain-america-the-winter-soldier",
+    "movie": {
+      "id": 11232,
+      "title": "Captain America: The Winter Soldier",
+      "plot": "As Steve Rogers struggles to embrace his role in the modern world, he teams up with another super soldier, the Black Widow, to battle a new threat from history: an assassin known as the Winter Soldier.",
+      "imdb_id": "1843866",
+      "tmdb_id": 100402,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG-13",
+      "imdb_rating": "7.8",
+      "genre": "Sci-Fi",
+      "posters": {
+        "id": 3582,
+        "imdb_id": "1843866",
+        "full_size": "https:\/\/cdn3.themovieclips.com\/posters\/1843866\/poster-captain-america-the-winter-soldier.jpg",
+        "thumb": "https:\/\/cdn4.themovieclips.com\/posters\/1843866\/poster-captain-america-the-winter-soldier-thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4348,
+    "title": "Trailer",
+    "imdb_id": "1877832",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 141,
+    "thumb": {
+      "small": "https:\/\/cdn3.themovieclips.com\/images\/1877832\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn4.themovieclips.com\/images\/1877832\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4348",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4348' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1877832\/trailer\/xmendaysoffuturepast.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1877832\/trailer\/xmendaysoffuturepast.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1877832\/trailer\/xmendaysoffuturepast.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1877832\/trailer\/xmendaysoffuturepast.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-x-men-days-of-future-past",
+    "movie": {
+      "id": 11276,
+      "title": "X-Men: Days of Future Past",
+      "plot": "The X-Men send Wolverine to the past in a desperate effort to change history and prevent an event that results in doom for both humans and mutants.",
+      "imdb_id": "1877832",
+      "tmdb_id": 127585,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG-13",
+      "imdb_rating": "8.0",
+      "genre": "Thriller",
+      "posters": {
+        "id": 3621,
+        "imdb_id": "1877832",
+        "full_size": "https:\/\/cdn0.themovieclips.com\/posters\/1877832\/poster-x-men-viitorul-este-trecut.jpg",
+        "thumb": "https:\/\/cdn4.themovieclips.com\/posters\/1877832\/poster-x-men-viitorul-este-trecut-thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4370,
+    "title": "Trailer",
+    "imdb_id": "1587310",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 87,
+    "thumb": {
+      "small": "https:\/\/cdn1.themovieclips.com\/images\/1587310\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn0.themovieclips.com\/images\/1587310\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4370",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4370' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1587310\/trailer\/maleficent.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1587310\/trailer\/maleficent.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1587310\/trailer\/maleficent.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1587310\/trailer\/maleficent.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-maleficent",
+    "movie": {
+      "id": 11299,
+      "title": "Maleficent",
+      "plot": "A vengeful fairy is driven to curse an infant princess, only to discover that the child may be the one person who can restore peace to their troubled land.",
+      "imdb_id": "1587310",
+      "tmdb_id": 102651,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG",
+      "imdb_rating": "7.0",
+      "genre": "Romance",
+      "posters": {
+        "id": 3688,
+        "imdb_id": "1587310",
+        "full_size": "https:\/\/cdn2.themovieclips.com\/posters\/1587310\/poster-maleficent.jpg",
+        "thumb": "https:\/\/cdn0.themovieclips.com\/posters\/1587310\/poster-maleficent-thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4446,
+    "title": "Trailer",
+    "imdb_id": "1872181",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 152,
+    "thumb": {
+      "small": "https:\/\/cdn1.themovieclips.com\/images\/1872181\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn0.themovieclips.com\/images\/1872181\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4446",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4446' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1872181\/trailer\/amazingspiderman2.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1872181\/trailer\/amazingspiderman2.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1872181\/trailer\/amazingspiderman2.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1872181\/trailer\/amazingspiderman2.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-the-amazing-spider-man-2",
+    "movie": {
+      "id": 11380,
+      "title": "The Amazing Spider-Man 2",
+      "plot": "When New York is put under siege by Oscorp, it is up to Spider-Man to save the city he swore to protect as well as his loved ones.",
+      "imdb_id": "1872181",
+      "tmdb_id": 102382,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG-13",
+      "imdb_rating": "6.8",
+      "genre": "Sci-Fi",
+      "posters": {
+        "id": 3770,
+        "imdb_id": "1872181",
+        "full_size": "https:\/\/cdn3.themovieclips.com\/posters\/1872181\/poster-uimitorul-om-paianjen-2.jpg",
+        "thumb": "https:\/\/cdn0.themovieclips.com\/posters\/1872181\/poster-uimitorul-om-paianjen-2-thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4448,
+    "title": "Teaser",
+    "imdb_id": "0831387",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 142,
+    "thumb": {
+      "small": "https:\/\/cdn3.themovieclips.com\/images\/0831387\/teaser\/small_screen_1.jpg",
+      "large": "https:\/\/cdn4.themovieclips.com\/images\/0831387\/teaser\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4448",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4448' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/0831387\/teaser\/godzilla.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/0831387\/teaser\/godzilla.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/0831387\/teaser\/godzilla.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/0831387\/teaser\/godzilla.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/teaser-godzilla",
+    "movie": {
+      "id": 11382,
+      "title": "Godzilla",
+      "plot": "The world is beset by the appearance of monstrous creatures, but one of them may be the only one who can save humanity.",
+      "imdb_id": "0831387",
+      "tmdb_id": 124905,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG-13",
+      "imdb_rating": "6.5",
+      "genre": "Thriller",
+      "posters": {
+        "id": 3959,
+        "imdb_id": "0831387",
+        "full_size": "https:\/\/cdn4.themovieclips.com\/posters\/0831387\/poster_2.jpg",
+        "thumb": "https:\/\/cdn0.themovieclips.com\/posters\/0831387\/poster_2_thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4452,
+    "title": "Trailer",
+    "imdb_id": "1631867",
+    "type": "trailer",
+    "rating": "Greenband",
+    "duration": 152,
+    "thumb": {
+      "small": "https:\/\/cdn0.themovieclips.com\/images\/1631867\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn3.themovieclips.com\/images\/1631867\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4452",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4452' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1631867\/trailer\/edgeoftomorrow.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1631867\/trailer\/edgeoftomorrow.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1631867\/trailer\/edgeoftomorrow.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1631867\/trailer\/edgeoftomorrow.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-edge-of-tomorrow",
+    "movie": {
+      "id": 11386,
+      "title": "Edge of Tomorrow",
+      "plot": "A military officer is brought into an alien war against an extraterrestrial enemy who can reset the day and know the future. When this officer is enabled with the same power, he teams up with a Special Forces warrior to try and end the war.",
+      "imdb_id": "1631867",
+      "tmdb_id": 137113,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG-13",
+      "imdb_rating": "7.9",
+      "genre": "Sci-Fi",
+      "posters": {
+        "id": 3773,
+        "imdb_id": "1631867",
+        "full_size": "https:\/\/cdn3.themovieclips.com\/posters\/1631867\/poster-edge-of-tomorrow.jpg",
+        "thumb": "https:\/\/cdn0.themovieclips.com\/posters\/1631867\/poster-edge-of-tomorrow-thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4473,
+    "title": "Trailer",
+    "imdb_id": "1086772",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 152,
+    "thumb": {
+      "small": "https:\/\/cdn3.themovieclips.com\/images\/1086772\/trailer\/small_screen_1.jpg",
+      "large": "https:\/\/cdn3.themovieclips.com\/images\/1086772\/trailer\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4473",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4473' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1086772\/trailer\/blended.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1086772\/trailer\/blended.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1086772\/trailer\/blended.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1086772\/trailer\/blended.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-blended",
+    "movie": {
+      "id": 11411,
+      "title": "Blended",
+      "plot": "After a bad blind date, a man and woman find themselves stuck together at a resort for families, where their attraction grows as their respective kids benefit from the burgeoning relationship.",
+      "imdb_id": "1086772",
+      "tmdb_id": 232672,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG-13",
+      "imdb_rating": "6.5",
+      "genre": "Romance",
+      "posters": {
+        "id": 3796,
+        "imdb_id": "1086772",
+        "full_size": "https:\/\/cdn4.themovieclips.com\/posters\/1086772\/poster_1.jpg",
+        "thumb": "https:\/\/cdn0.themovieclips.com\/posters\/1086772\/poster_1_thumb.jpg"
+      }
+    }
+  },
+  {
+    "id": 4479,
+    "title": "Trailer 2",
+    "imdb_id": "1646971",
+    "type": "trailer",
+    "rating": "Not Set",
+    "duration": 151,
+    "thumb": {
+      "small": "https:\/\/cdn0.themovieclips.com\/images\/1646971\/trailer_2\/small_screen_1.jpg",
+      "large": "https:\/\/cdn2.themovieclips.com\/images\/1646971\/trailer_2\/screen_1.jpg"
+    },
+    "embed": {
+      "flash": "https:\/\/www.themovieclips.com\/mediafiles\/player\/v1\/player.swf?v=4479",
+      "iframe": "<iframe width='656' height='369' src=https:\/\/www.themovieclips.com\/embed\/4479' frameborder='0' allowfullscreen><\/iframe>",
+      "html5": {
+        "360p": "https:\/\/stream.themovieclips.com\/360\/1646971\/trailer_2\/dragon2_tr2.mp4",
+        "480p": "https:\/\/stream.themovieclips.com\/480\/1646971\/trailer_2\/dragon2_tr2.mp4",
+        "720p": "https:\/\/stream.themovieclips.com\/720\/1646971\/trailer_2\/dragon2_tr2.mp4",
+        "1080p": "https:\/\/stream.themovieclips.com\/1080\/1646971\/trailer_2\/dragon2_tr2.mp4"
+      }
+    },
+    "link": "https:\/\/www.themovieclips.com\/trailer-2-how-to-train-your-dragon-2",
+    "movie": {
+      "id": 10944,
+      "title": "How to Train Your Dragon 2",
+      "plot": "When Hiccup and Toothless discover an ice cave that is home to hundreds of new wild dragons and the mysterious Dragon Rider, the two friends find themselves at the center of a battle to protect the peace.",
+      "imdb_id": "1646971",
+      "tmdb_id": 82702,
+      "type": "feature",
+      "year": 2014,
+      "rating": "PG",
+      "imdb_rating": "7.9",
+      "genre": "Fantasy",
+      "posters": {
+        "id": 3746,
+        "imdb_id": "1646971",
+        "full_size": "https:\/\/cdn2.themovieclips.com\/posters\/1646971\/poster_1.jpg",
+        "thumb": "https:\/\/cdn4.themovieclips.com\/posters\/1646971\/poster_1_thumb.jpg"
+      }
+    }
+  }
+]
