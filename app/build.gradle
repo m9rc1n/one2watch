@@ -34,6 +34,7 @@ dependencies {
 
     testCompile "junit:junit:${rootProject.ext.junitVersion}"
     testCompile "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrestVersion}"
+    testCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
 
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile project(":shared")
