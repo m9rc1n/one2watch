@@ -225,6 +225,7 @@ public class TrailerData implements Parcelable {
         private String mRating;
         private String mImdbRating;
         private String mGenre;
+        private Poster posters;
 
         public Movie(long mId,
                      String mTitle,
@@ -330,6 +331,10 @@ public class TrailerData implements Parcelable {
 
         public void setGenre(String mGenre) {
             this.mGenre = mGenre;
+        }
+
+        public Poster getPosters() {
+            return posters;
         }
     }
 
@@ -461,6 +466,58 @@ public class TrailerData implements Parcelable {
 
         public void setLarge(String mLarge) {
             this.mLarge = mLarge;
+        }
+    }
+
+    public static class Poster {
+
+        public final static String id_JSON = "id";
+        public final static String imdbId_JSON = "imdb_id";
+        public final static String fullSize_JSON = "full_size";
+        public final static String thumb_JSON = "thumb";
+
+        private long mId;
+        private String mImdbId;
+        private String mFullSize;
+        private String mThumb;
+
+        public Poster(long mId, String mImdbId, String mFullSize, String mThumb) {
+            this.mId = mId;
+            this.mImdbId = mImdbId;
+            this.mFullSize = mFullSize;
+            this.mThumb = mThumb;
+        }
+
+        public String getThumb() {
+            return mThumb;
+        }
+
+        public void setThumb(String mThumb) {
+            this.mThumb = mThumb;
+        }
+
+        public String getFullSize() {
+            return mFullSize;
+        }
+
+        public void setFullSize(String mFullSize) {
+            this.mFullSize = mFullSize;
+        }
+
+        public String getImdbId() {
+            return mImdbId;
+        }
+
+        public void setImdbId(String mImdbId) {
+            this.mImdbId = mImdbId;
+        }
+
+        public long getId() {
+            return mId;
+        }
+
+        public void setId(long mId) {
+            this.mId = mId;
         }
     }
 }

@@ -30,12 +30,15 @@ public class TrailerDataJsonParser {
 
     public List<TrailerData> parseJsonStream(InputStream inputStream) throws IOException {
 
-        try (JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"))) {
+        JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
+        try {
             return parseJsonTrailerDataArray(reader);
+        } finally {
+            reader.close();
         }
     }
 
-    private List<TrailerData> parseJsonTrailerDataArray(JsonReader reader) throws IOException {
+    public List<TrailerData> parseJsonTrailerDataArray(JsonReader reader) throws IOException {
         final List<TrailerData> list = new ArrayList<>();
         try {
             reader.beginArray();
