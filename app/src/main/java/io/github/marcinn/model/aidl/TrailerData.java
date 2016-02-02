@@ -207,12 +207,12 @@ public class TrailerData implements Parcelable {
         public final static String id_JSON = "id";
         public final static String title_JSON = "title";
         public final static String plot_JSON = "plot";
-        public final static String imdbId_JSON = "imdbId";
-        public final static String tmdbId_JSON = "tmdbId";
+        public final static String imdbId_JSON = "imdb_id";
+        public final static String tmdbId_JSON = "tmdb_id";
         public final static String type_JSON = "type";
         public final static String year_JSON = "year";
         public final static String rating_JSON = "rating";
-        public final static String imdbRating_JSON = "imdbRating";
+        public final static String imdbRating_JSON = "imdb_rating";
         public final static String genre_JSON = "genre";
 
         private long mId;
