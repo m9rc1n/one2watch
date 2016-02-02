@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.nidelva.marsvideoview.MarsVideoView;
 
 import java.util.ArrayList;
 
@@ -65,7 +65,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         TextView desc;
         ImageView play;
         ImageView google;
-        VideoView video;
+        MarsVideoView video;
 
         TrailerViewHolder(View v, final ArrayList<TrailerData> trailers) {
             super(v);
@@ -74,7 +74,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
             play = (ImageView) v.findViewById(R.id.play);
             google = (ImageView) v.findViewById(R.id.google);
             thumbnail = (SimpleDraweeView) v.findViewById(R.id.thumbnail);
-            video = (VideoView) v.findViewById(R.id.video);
+            video = (MarsVideoView) v.findViewById(R.id.video);
             progress = (ProgressBar) v.findViewById(R.id.progress);
 
             play.setOnClickListener(new View.OnClickListener() {

@@ -23,6 +23,5 @@ public class TrailerServiceConnection<AIDLInterface extends android.os.IInterfac
     public void onServiceConnected(ComponentName name, IBinder service) {
         super.onServiceConnected(name, service);
         mPresenter.get().synchronizeAll();
-
     }
 }

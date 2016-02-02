@@ -42,6 +42,7 @@ dependencies {
 
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile project(":shared")
+    compile project(":marsvideoview")
     compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:design:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
