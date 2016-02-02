@@ -80,7 +80,7 @@ public class TrailerDataJsonParserTest {
             assertEquals(data_0.getMovie().getPosters().getThumb(),
                     "https://cdn4.themovieclips.com/posters/1646971/poster_1_thumb.jpg");
 
-            TrailerData data_1 = returnList.get(0);
+            TrailerData data_1 = returnList.get(1);
 
             assertEquals(data_1.getId(), 4296);
             assertEquals(data_1.getTitle(), "Trailer");

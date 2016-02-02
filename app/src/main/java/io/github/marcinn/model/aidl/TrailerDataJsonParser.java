@@ -13,6 +13,7 @@ import io.github.marcinn.model.aidl.TrailerData.Movie;
 import io.github.marcinn.model.aidl.TrailerData.Thumb;
 
 import static io.github.marcinn.model.aidl.TrailerData.Html5;
+import static io.github.marcinn.model.aidl.TrailerData.Poster;
 import static io.github.marcinn.model.aidl.TrailerData.duration_JSON;
 import static io.github.marcinn.model.aidl.TrailerData.embed_JSON;
 import static io.github.marcinn.model.aidl.TrailerData.id_JSON;
@@ -38,7 +39,7 @@ public class TrailerDataJsonParser {
         }
     }
 
-    public List<TrailerData> parseJsonTrailerDataArray(JsonReader reader) throws IOException {
+    private List<TrailerData> parseJsonTrailerDataArray(JsonReader reader) throws IOException {
         final List<TrailerData> list = new ArrayList<>();
         try {
             reader.beginArray();
@@ -170,6 +171,33 @@ public class TrailerDataJsonParser {
         return thumb;
     }
 
+    private Poster parsePoster(JsonReader reader) throws IOException {
+        reader.beginObject();
+        final Poster poster = new Poster();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            switch (name) {
+                case Poster.id_JSON:
+                    poster.setId(reader.nextLong());
+                    break;
+                case Poster.imdbId_JSON:
+                    poster.setImdbId(reader.nextString());
+                    break;
+                case Poster.fullSize_JSON:
+                    poster.setFullSize(reader.nextString());
+                    break;
+                case Poster.thumb_JSON:
+                    poster.setThumb(reader.nextString());
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
+            }
+        }
+        reader.endObject();
+        return poster;
+    }
+
     private Movie parseMovie(JsonReader reader) throws IOException {
         reader.beginObject();
         final Movie movie = new Movie();
@@ -198,13 +226,16 @@ public class TrailerDataJsonParser {
                     movie.setYear(reader.nextInt());
                     break;
                 case Movie.rating_JSON:
-                    movie.setType(reader.nextString());
+                    movie.setRating(reader.nextString());
                     break;
                 case Movie.imdbRating_JSON:
-                    movie.setType(reader.nextString());
+                    movie.setImdbRating(reader.nextString());
                     break;
                 case Movie.genre_JSON:
                     movie.setGenre(reader.nextString());
+                    break;
+                case Movie.posters_JSON:
+                    movie.setPosters(parsePoster(reader));
                     break;
                 default:
                     reader.skipValue();

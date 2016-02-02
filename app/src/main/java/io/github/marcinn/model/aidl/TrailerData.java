@@ -85,7 +85,8 @@ public class TrailerData implements Parcelable {
                 in.readInt(),
                 in.readString(),
                 in.readString(),
-                in.readString());
+                in.readString(),
+                new Poster(in.readLong(), in.readString(), in.readString(), in.readString()));
     }
 
     public long getId() {
@@ -214,6 +215,7 @@ public class TrailerData implements Parcelable {
         public final static String rating_JSON = "rating";
         public final static String imdbRating_JSON = "imdb_rating";
         public final static String genre_JSON = "genre";
+        public final static String posters_JSON = "posters";
 
         private long mId;
         private String mTitle;
@@ -225,7 +227,7 @@ public class TrailerData implements Parcelable {
         private String mRating;
         private String mImdbRating;
         private String mGenre;
-        private Poster posters;
+        private Poster mPosters;
 
         public Movie(long mId,
                      String mTitle,
@@ -235,8 +237,7 @@ public class TrailerData implements Parcelable {
                      String mType,
                      int mYear,
                      String mRating,
-                     String mImdbRating,
-                     String mGenre) {
+                     String mImdbRating, String mGenre, Poster mPosters) {
             this.mId = mId;
             this.mTitle = mTitle;
             this.mPlot = mPlot;
@@ -247,11 +248,11 @@ public class TrailerData implements Parcelable {
             this.mRating = mRating;
             this.mImdbRating = mImdbRating;
             this.mGenre = mGenre;
+            this.mPosters = mPosters;
         }
 
         public Movie() {
         }
-
 
         public long getId() {
             return mId;
@@ -334,7 +335,11 @@ public class TrailerData implements Parcelable {
         }
 
         public Poster getPosters() {
-            return posters;
+            return mPosters;
+        }
+
+        public void setPosters(Poster mPosters) {
+            this.mPosters = mPosters;
         }
     }
 
@@ -486,6 +491,9 @@ public class TrailerData implements Parcelable {
             this.mImdbId = mImdbId;
             this.mFullSize = mFullSize;
             this.mThumb = mThumb;
+        }
+
+        public Poster() {
         }
 
         public String getThumb() {
