@@ -201,6 +201,10 @@ public class TrailerData implements Parcelable {
         dest.writeString(mMovie.getRating());
         dest.writeString(mMovie.getImdbRating());
         dest.writeString(mMovie.getGenre());
+        dest.writeLong(mMovie.getPosters().getId());
+        dest.writeString(mMovie.getPosters().getImdbId());
+        dest.writeString(mMovie.getPosters().getFullSize());
+        dest.writeString(mMovie.getPosters().getThumb());
     }
 
     public static class Movie {
