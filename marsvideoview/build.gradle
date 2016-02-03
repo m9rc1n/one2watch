@@ -9,6 +9,8 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -20,8 +22,11 @@ android {
 
 dependencies {
     androidTestCompile "com.android.support.test.espresso:espresso-core:${rootProject.ext.espressoVersion}"
+    androidTestCompile "com.android.support.test.espresso:espresso-intents:${rootProject.ext.espressoVersion}"
     androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
     androidTestCompile "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrestVersion}"
+    androidTestCompile "com.android.support.test:runner:${rootProject.ext.androidTestVersion}"
+    androidTestCompile "com.android.support.test:rules:${rootProject.ext.androidTestVersion}"
 
     testCompile "junit:junit:${rootProject.ext.junitVersion}"
     testCompile "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrestVersion}"
