@@ -8,6 +8,10 @@ import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -18,6 +22,7 @@ public class MarsVideoView extends VideoView {
     public static final String ACTION_STOP = "ACTION_STOP";
     public static final String EXTRA_UUID = "EXTRA_UUID";
     private UUID mUUID;
+    private MediaController mController;
 
     public MarsVideoView(Context context) {
         super(context);
@@ -61,14 +66,14 @@ public class MarsVideoView extends VideoView {
         Intent intent = new Intent(ACTION_STOP);
         intent.putExtra(EXTRA_UUID, mUUID.toString());
         getContext().sendBroadcast(intent);
+        mController = new MediaController(getContext(), true);
+        mController.setMediaPlayer(this);
+        mController.setAnchorView(this);
+        setMediaController(mController);
     }
 
     @Override
     public void setOnPreparedListener(MediaPlayer.OnPreparedListener l) {
         super.setOnPreparedListener(l);
-        MediaController controller = new MediaController(getContext(), true);
-        controller.setMediaPlayer(this);
-        controller.setAnchorView(this);
-        setMediaController(controller);
     }
 }
