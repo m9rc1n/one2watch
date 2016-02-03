@@ -19,7 +19,14 @@ android {
 }
 
 dependencies {
+    androidTestCompile "com.android.support.test.espresso:espresso-core:${rootProject.ext.espressoVersion}"
+    androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+    androidTestCompile "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrestVersion}"
+
+    testCompile "junit:junit:${rootProject.ext.junitVersion}"
+    testCompile "org.hamcrest:hamcrest-library:${rootProject.ext.hamcrestVersion}"
+    testCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
 }
