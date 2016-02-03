@@ -86,10 +86,6 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
                     video.setVisibility(View.VISIBLE);
                     progress.setVisibility(View.VISIBLE);
                     video.setVideoURI(Uri.parse(url));
-                    MediaController controller = new MediaController(v.getContext(), true);
-                    controller.setMediaPlayer(video);
-                    controller.setAnchorView(video);
-                    video.setMediaController(controller);
                     video.requestFocus();
                 }
             });

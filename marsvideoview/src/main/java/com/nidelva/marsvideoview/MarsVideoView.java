@@ -5,8 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import java.util.UUID;
@@ -59,5 +61,14 @@ public class MarsVideoView extends VideoView {
         Intent intent = new Intent(ACTION_STOP);
         intent.putExtra(EXTRA_UUID, mUUID.toString());
         getContext().sendBroadcast(intent);
+    }
+
+    @Override
+    public void setOnPreparedListener(MediaPlayer.OnPreparedListener l) {
+        super.setOnPreparedListener(l);
+        MediaController controller = new MediaController(getContext(), true);
+        controller.setMediaPlayer(this);
+        controller.setAnchorView(this);
+        setMediaController(controller);
     }
 }
